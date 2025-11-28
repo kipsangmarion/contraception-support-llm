@@ -1,0 +1,69 @@
+# Core Dependencies
+python-dotenv==1.0.0
+
+# LLM and Embeddings
+openai==1.54.3
+anthropic==0.39.0
+sentence-transformers==3.3.1
+tiktoken==0.8.0
+
+# RAG and Vector Store
+langchain==0.3.7
+langchain-community==0.3.5
+langchain-openai==0.2.5
+faiss-cpu==1.9.0
+# faiss-gpu==1.9.0  # Uncomment if using GPU
+
+# Document Processing
+PyPDF2==3.0.1
+pdfplumber==0.11.4
+python-docx==1.1.2
+
+# API Framework
+fastapi==0.115.5
+uvicorn==0.32.1
+pydantic==2.10.2
+pydantic-settings==2.6.1
+
+# Data Processing
+pandas==2.2.3
+numpy>=1.24.0,<2.0.0
+scikit-learn==1.5.2
+
+# Visualization
+matplotlib==3.9.2
+seaborn==0.13.2
+plotly==5.24.1
+
+# Statistical Testing
+scipy>=1.10.0,<1.14.0
+statsmodels==0.14.4
+
+# Reinforcement Learning
+gymnasium==1.0.0
+
+# Database (optional)
+sqlalchemy>=1.4.0,<2.0.36
+sqlite-utils==3.38
+
+# Configuration
+pyyaml==6.0.2
+omegaconf==2.3.0
+
+# Testing
+pytest==8.3.3
+pytest-cov==6.0.0
+pytest-asyncio==0.24.0
+
+# Code Quality
+black==24.10.0
+flake8==7.1.1
+mypy==1.13.0
+
+# Logging and Monitoring
+loguru==0.7.3
+
+# Utilities
+tqdm==4.67.1
+python-dateutil==2.9.0.post0
+requests==2.32.3
