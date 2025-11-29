@@ -72,7 +72,7 @@ def main(args):
                 min_chunk_size=rag_config['chunking']['min_chunk_size'],
                 max_chunk_size=rag_config['chunking']['max_chunk_size']
             )
-            all_chunks.extend(who_chunks)
+            all_chunks.extend(bcs_chunks)
         else:
             logger.warning(f"No PDF files found in {bcs_path}")
 
@@ -96,7 +96,7 @@ def main(args):
 
     # Generate embeddings
     logger.info("Generating embeddings...")
-    embedding_config = config['models']['embedding']
+    embedding_config = config['models']['embeddings']
     embedder = EmbeddingGenerator(
         model_name=embedding_config['model_name'],
         provider=embedding_config['provider']
@@ -116,12 +116,17 @@ def main(args):
     )
     vector_store.add_embeddings(embeddings, all_chunks)
 
-    # Save index
-    index_output_path = Path(paths_config['index']['faiss'])
-    logger.info(f"Saving FAISS index to {index_output_path}")
+    # Save index and chunks to vector_store directory
+    vector_store_dir = Path(config['data']['processed_dir']) / "vector_store"
+    vector_store_dir.mkdir(parents=True, exist_ok=True)
+
+    index_output_path = vector_store_dir / "faiss.index"
+    chunks_output_path_final = vector_store_dir / "chunks.json"
+
+    logger.info(f"Saving FAISS index to {vector_store_dir}")
     vector_store.save(
         index_path=str(index_output_path),
-        chunks_path=str(chunks_output_path)
+        chunks_path=str(chunks_output_path_final)
     )
 
     # Save statistics

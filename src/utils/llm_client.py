@@ -17,9 +17,15 @@ class LLMClient:
         Initialize LLM client from configuration.
 
         Args:
-            config: Configuration dictionary with 'models' section
+            config: LLM configuration dictionary (can be full config or just llm section)
         """
-        llm_config = config.get('models', {}).get('llm', {})
+        # Handle both full config and direct llm_config
+        if 'models' in config:
+            llm_config = config['models']['llm']
+        elif 'provider' in config:
+            llm_config = config
+        else:
+            raise ValueError("Invalid config format. Must contain 'models' or 'provider' key")
 
         self.provider = llm_config.get('provider', 'openai')
         self.model_name = llm_config.get('model_name', 'gpt-4o-mini')

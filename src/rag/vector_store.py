@@ -168,16 +168,34 @@ class FAISSVectorStore:
 
         logger.info("Index and chunks saved successfully")
 
-    def load(self, index_path: str, chunks_path: str):
+    def load(self, index_path: str, chunks_path: Optional[str] = None):
         """
         Load index and chunks from disk.
 
         Args:
-            index_path: Path to FAISS index file
-            chunks_path: Path to chunks JSON file
+            index_path: Path to FAISS index file OR directory containing index
+            chunks_path: Path to chunks JSON file (optional if index_path is directory)
         """
         index_path = Path(index_path)
-        chunks_path = Path(chunks_path)
+
+        # Handle directory path (for retriever compatibility)
+        if index_path.is_dir():
+            # Look for index and chunks files in directory
+            index_file = index_path / "faiss.index"
+            chunks_file = index_path / "chunks.json"
+
+            if not index_file.exists():
+                raise FileNotFoundError(f"Index file not found: {index_file}")
+            if not chunks_file.exists():
+                raise FileNotFoundError(f"Chunks file not found: {chunks_file}")
+
+            index_path = index_file
+            chunks_path = chunks_file
+        else:
+            # Direct file paths provided
+            if chunks_path is None:
+                raise ValueError("chunks_path must be provided when index_path is a file")
+            chunks_path = Path(chunks_path)
 
         if not index_path.exists():
             raise FileNotFoundError(f"Index file not found: {index_path}")

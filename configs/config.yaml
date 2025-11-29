@@ -9,19 +9,23 @@ random_seeds:
 # Model Configuration
 models:
   llm:
-    provider: "openai"  # Options: "openai", "anthropic", "huggingface"
-    model_name: "gpt-4o-mini"  # or "gpt-4", "claude-3-5-sonnet-20241022", etc.
+    provider: "ollama"  # Options: "openai", "anthropic", "ollama", "groq"
+    model_name: "llama3.2"  # Ollama: "llama3.2", "mistral", "phi3" | OpenAI: "gpt-4o-mini" | Groq: "llama-3.1-8b-instant"
+    base_url: "http://localhost:11434"  # For Ollama (local server)
     temperature: 0.1
     max_tokens: 1024
     top_p: 0.95
 
-  embedding:
+  embeddings:
     provider: "sentence-transformers"  # Options: "sentence-transformers", "openai"
     model_name: "all-MiniLM-L6-v2"  # or "text-embedding-3-small"
     dimension: 384  # 384 for MiniLM, 1536 for OpenAI text-embedding-3-small
 
 # RAG Configuration
 rag:
+  relevance_threshold: 0.3  # Minimum similarity score (0-1)
+  max_conversation_history: 10  # Max turns to keep in memory
+
   chunking:
     method: "paragraph"  # Options: "fixed", "paragraph", "semantic"
     chunk_size: 250  # characters
@@ -110,6 +114,12 @@ evaluation:
     bootstrap_iterations: 1000
 
 # Data Paths
+data:
+  who_dir: "data/who/"
+  bcs_dir: "data/bcs/"
+  synthetic_dir: "data/synthetic/"
+  processed_dir: "data/processed/"
+
 paths:
   data:
     who: "data/who/"
@@ -192,6 +202,11 @@ synthetic_data:
       - "partner_concerns"
       - "side_effects"
       - "effectiveness"
+
+    languages:
+      - "english"
+      - "french"
+      - "kinyarwanda"
 
   adherence_dataset:
     n_samples: 1000

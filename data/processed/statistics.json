@@ -1,0 +1,12 @@
+{
+  "total_chunks": 5460,
+  "total_sources": 2,
+  "sources": [
+    "WHO_FP_Handbook_2022.pdf",
+    "BCS_Plus_Toolkit.pdf"
+  ],
+  "total_characters": 1448660,
+  "avg_chunk_length": 265.32,
+  "min_chunk_length": 149,
+  "max_chunk_length": 3622
+}
