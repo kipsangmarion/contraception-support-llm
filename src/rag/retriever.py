@@ -141,13 +141,16 @@ class RAGRetriever:
         # Build context with citations
         context_parts = []
         for i, doc in enumerate(documents, 1):
+            # Extract chunk data (vector_store returns {'chunk': {...}, 'score': ..., 'rank': ...})
+            chunk_data = doc.get('chunk', doc)  # Fallback to doc if 'chunk' key doesn't exist
+
             # Extract metadata
-            source = doc['metadata'].get('source', 'Unknown')
-            page = doc['metadata'].get('page_number', 'N/A')
+            source = chunk_data.get('source', 'Unknown')
+            page = chunk_data.get('page_number', 'N/A')
 
             # Format context entry
             citation = f"[Source {i}: {source}, Page {page}]"
-            text = doc['text']
+            text = chunk_data.get('text', '')
 
             context_parts.append(f"{citation}\n{text}\n")
 
@@ -181,15 +184,18 @@ class RAGRetriever:
         seen_sources = set()
 
         for doc in documents:
-            source = doc['metadata'].get('source', 'Unknown')
-            page = doc['metadata'].get('page_number', 'N/A')
+            # Extract chunk data (vector_store returns {'chunk': {...}, 'score': ..., 'rank': ...})
+            chunk_data = doc.get('chunk', doc)  # Fallback to doc if 'chunk' key doesn't exist
+
+            source = chunk_data.get('source', 'Unknown')
+            page = chunk_data.get('page_number', 'N/A')
             source_key = f"{source}:{page}"
 
             if source_key not in seen_sources:
                 sources.append({
                     'source': source,
                     'page': page,
-                    'relevance_score': doc['score']
+                    'relevance_score': doc.get('score', 0.0)
                 })
                 seen_sources.add(source_key)
 
@@ -275,8 +281,12 @@ class HybridRetriever(RAGRetriever):
 
         # Calculate hybrid scores
         for doc in semantic_results:
+            # Extract chunk data
+            chunk_data = doc.get('chunk', doc)
+            text = chunk_data.get('text', '')
+
             semantic_score = doc['score']
-            keyword_score = self._keyword_score(query, doc['text'])
+            keyword_score = self._keyword_score(query, text)
 
             # Combine scores
             doc['semantic_score'] = semantic_score
