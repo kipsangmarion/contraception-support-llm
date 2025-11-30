@@ -57,8 +57,8 @@ data/bcs/*.pdf
 data/processed/*.index
 data/processed/*.faiss
 data/synthetic/*.json
-data/memory/*.db
-data/memory/*.json
+data/memory/**/*.db
+data/memory/**/*.json
 
 # Model checkpoints and weights
 *.pt

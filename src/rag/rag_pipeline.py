@@ -11,6 +11,7 @@ from loguru import logger
 
 from src.rag.retriever import RAGRetriever, HybridRetriever
 from src.rag.generator import RAGGenerator, MultilingualGenerator
+from src.memory.memory_manager import MemoryManager
 
 
 class RAGPipeline:
@@ -274,76 +275,220 @@ class RAGPipeline:
 
 class RAGPipelineWithMemory(RAGPipeline):
     """
-    RAG Pipeline with persistent conversation memory.
+    RAG Pipeline with persistent conversation memory and user profiles.
 
     Extends RAGPipeline with:
     - Persistent storage of conversations
     - User profile tracking
-    - Adherence monitoring context
+    - Interest extraction
+    - Session management
     """
 
-    def __init__(self, config_path: str = "configs/config.yaml", **kwargs):
+    def __init__(
+        self,
+        config_path: str = "configs/config.yaml",
+        memory_dir: str = "data/memory",
+        **kwargs
+    ):
         """
         Initialize pipeline with memory.
 
         Args:
             config_path: Configuration file path
+            memory_dir: Directory for memory storage
             **kwargs: Additional arguments for RAGPipeline
         """
         super().__init__(config_path, **kwargs)
 
-        # Storage for user profiles
-        self.user_profiles = {}
+        # Initialize memory manager
+        self.memory = MemoryManager(
+            conversation_dir=f"{memory_dir}/conversations",
+            profile_dir=f"{memory_dir}/profiles"
+        )
 
-        logger.info("RAGPipelineWithMemory initialized")
+        logger.info("RAGPipelineWithMemory initialized with persistent storage")
+
+    def query(
+        self,
+        question: str,
+        language: Optional[str] = None,
+        session_id: Optional[str] = None,
+        user_id: Optional[str] = None,
+        top_k: int = 5,
+        include_sources: bool = True,
+        **kwargs
+    ) -> Dict:
+        """
+        Process query with memory support.
+
+        Args:
+            question: User's question
+            language: Response language
+            session_id: Session identifier
+            user_id: Optional user identifier for personalization
+            top_k: Number of documents to retrieve
+            include_sources: Include source citations
+            **kwargs: Additional arguments
+
+        Returns:
+            Response with memory integration
+        """
+        # Start/resume session if needed
+        if session_id and user_id:
+            self.memory.start_session(
+                session_id=session_id,
+                user_id=user_id,
+                language=language or 'english'
+            )
+
+        # Get memory context
+        memory_context = None
+        if session_id:
+            memory_context = self.memory.get_context_for_query(
+                session_id=session_id,
+                user_id=user_id,
+                max_turns=5
+            )
+
+            # Override language from user profile if available
+            if not language and memory_context['user_preferences']:
+                language = memory_context['user_preferences'].get('language', 'english')
+
+        # Process query with parent class
+        result = super().query(
+            question=question,
+            language=language,
+            session_id=session_id,
+            top_k=top_k,
+            include_sources=include_sources,
+            **kwargs
+        )
+
+        # Store interaction in memory
+        if session_id:
+            self.memory.add_interaction(
+                session_id=session_id,
+                query=question,
+                response=result['response'],
+                sources=result.get('sources', []),
+                user_id=user_id,
+                metadata=result.get('metadata', {})
+            )
+
+        # Add memory stats to metadata
+        if memory_context:
+            result['metadata']['memory'] = {
+                'turns_in_history': len(memory_context['conversation_history']),
+                'user_interests': memory_context['user_interests'][:5]  # Top 5
+            }
+
+        return result
 
     def query_with_profile(
         self,
         question: str,
-        user_profile: Dict,
+        user_id: str,
         session_id: str,
+        language: Optional[str] = None,
         **kwargs
     ) -> Dict:
         """
-        Query with user profile context.
+        Query with explicit user profile handling.
 
         Args:
             question: User's question
-            user_profile: User profile data
+            user_id: User identifier
             session_id: Session identifier
+            language: Optional language override
             **kwargs: Additional arguments
 
         Returns:
             Response with personalized context
         """
-        # Store/update user profile
-        self.user_profiles[session_id] = user_profile
+        # Get user profile
+        profile = self.memory.user_profiles.get_profile(user_id)
 
-        # Extract relevant profile info
-        language = user_profile.get('language_preference', 'english')
-        prior_method = user_profile.get('prior_contraceptive_use')
-        concerns = user_profile.get('primary_concerns', [])
+        if not profile:
+            # Create new profile
+            profile = self.memory.user_profiles.create_profile(
+                user_id=user_id,
+                language=language or 'english'
+            )
 
-        # Augment query with profile context (if relevant)
-        # This helps the LLM provide personalized responses
+        # Use profile language if not specified
+        if not language:
+            language = profile['preferences']['language']
 
-        logger.debug(f"Processing query with profile context (lang={language})")
-
-        # Call standard query with language
+        # Process query
         result = self.query(
             question=question,
             language=language,
             session_id=session_id,
+            user_id=user_id,
             **kwargs
         )
 
-        # Add profile context to metadata
+        # Add profile info to metadata
         result['metadata']['user_profile'] = {
-            'prior_method': prior_method,
-            'concerns': concerns
+            'session_count': profile['session_count'],
+            'interests': profile['interests'][:5],
+            'contraception_history': len(profile['contraception_history'])
         }
 
         return result
+
+    def clear_session(self, session_id: str):
+        """
+        Clear session memory.
+
+        Args:
+            session_id: Session to clear
+        """
+        self.memory.clear_session(session_id)
+        logger.info(f"Cleared session {session_id}")
+
+    def get_user_summary(self, user_id: str) -> Dict:
+        """
+        Get user profile summary.
+
+        Args:
+            user_id: User identifier
+
+        Returns:
+            User summary
+        """
+        return self.memory.get_user_summary(user_id)
+
+    def export_user_data(self, user_id: str) -> Dict:
+        """
+        Export user data (GDPR compliance).
+
+        Args:
+            user_id: User identifier
+
+        Returns:
+            Complete user data export
+        """
+        return self.memory.export_user_data(user_id)
+
+    def delete_user_data(self, user_id: str):
+        """
+        Delete all user data (GDPR compliance).
+
+        Args:
+            user_id: User identifier
+        """
+        self.memory.delete_user_data(user_id)
+        logger.info(f"Deleted all data for user {user_id}")
+
+    def get_memory_statistics(self) -> Dict:
+        """
+        Get memory system statistics.
+
+        Returns:
+            Statistics dictionary
+        """
+        return self.memory.get_statistics()
 
 
 # Example usage and testing

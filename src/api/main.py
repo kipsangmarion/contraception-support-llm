@@ -52,6 +52,7 @@ class QueryRequest(BaseModel):
     question: str = Field(..., min_length=1, max_length=1000, description="User's question")
     language: Optional[str] = Field(None, description="Response language (auto-detected if not provided)")
     session_id: Optional[str] = Field(None, description="Session ID for conversation tracking")
+    user_id: Optional[str] = Field(None, description="User ID for personalization (requires memory system)")
     top_k: int = Field(5, ge=1, le=20, description="Number of documents to retrieve")
     include_sources: bool = Field(True, description="Include source citations")
     collect_data: bool = Field(False, description="Opt-in to data collection")
@@ -62,6 +63,7 @@ class QueryRequest(BaseModel):
                 "question": "What are the side effects of DMPA injection?",
                 "language": "english",
                 "session_id": "user123",
+                "user_id": "user_001",
                 "top_k": 5,
                 "include_sources": True,
                 "collect_data": False
@@ -254,14 +256,20 @@ async def query_endpoint(request: QueryRequest):
         # Generate session_id if not provided
         session_id = request.session_id or str(uuid.uuid4())
 
-        # Process query
-        result = pipeline.query(
-            question=request.question,
-            language=request.language,
-            session_id=session_id,
-            top_k=request.top_k,
-            include_sources=request.include_sources
-        )
+        # Process query (with user_id if available for memory system)
+        query_kwargs = {
+            'question': request.question,
+            'language': request.language,
+            'session_id': session_id,
+            'top_k': request.top_k,
+            'include_sources': request.include_sources
+        }
+
+        # Add user_id if provided (for memory-enabled pipeline)
+        if request.user_id:
+            query_kwargs['user_id'] = request.user_id
+
+        result = pipeline.query(**query_kwargs)
 
         # Collect data if opted in
         if request.collect_data and data_collector:
@@ -393,6 +401,257 @@ async def clear_conversation(session_id: str):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to clear conversation: {str(e)}"
+        )
+
+
+# Memory Management Endpoints
+
+# Request model for creating user profile
+class CreateProfileRequest(BaseModel):
+    """Request model for creating user profile."""
+    user_id: str = Field(..., description="User identifier")
+    language: str = Field("english", description="Preferred language")
+    metadata: Optional[Dict] = Field(None, description="Additional metadata")
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "user_id": "user_001",
+                "language": "english",
+                "metadata": {}
+            }
+        }
+
+
+@app.post("/memory/profiles", tags=["Memory"])
+async def create_user_profile(request: CreateProfileRequest):
+    """
+    Create a new user profile.
+
+    Creates or updates user profile for personalization.
+    """
+    if pipeline is None or not isinstance(pipeline, RAGPipelineWithMemory):
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Memory system not available"
+        )
+
+    try:
+        profile = pipeline.memory.user_profiles.create_profile(
+            user_id=request.user_id,
+            language=request.language,
+            metadata=request.metadata or {}
+        )
+
+        return {
+            "status": "created",
+            "user_id": request.user_id,
+            "profile": profile
+        }
+
+    except Exception as e:
+        logger.error(f"Failed to create profile: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to create profile: {str(e)}"
+        )
+
+
+@app.get("/memory/profiles/{user_id}", tags=["Memory"])
+async def get_user_profile(user_id: str):
+    """
+    Get user profile.
+
+    Returns user profile and preferences.
+    """
+    if pipeline is None or not isinstance(pipeline, RAGPipelineWithMemory):
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Memory system not available"
+        )
+
+    try:
+        profile = pipeline.memory.user_profiles.get_profile(user_id)
+
+        if not profile:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Profile not found for user {user_id}"
+            )
+
+        return profile
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to get profile: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to get profile: {str(e)}"
+        )
+
+
+# Request model for updating preferences
+class UpdatePreferencesRequest(BaseModel):
+    """Request model for updating user preferences."""
+    preferences: Dict = Field(..., description="User preferences to update")
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "preferences": {
+                    "language": "french",
+                    "detail_level": "high",
+                    "include_sources": True
+                }
+            }
+        }
+
+
+@app.put("/memory/profiles/{user_id}/preferences", tags=["Memory"])
+async def update_user_preferences(
+    user_id: str,
+    request: UpdatePreferencesRequest
+):
+    """
+    Update user preferences.
+
+    Updates language, detail level, and other preferences.
+    """
+    if pipeline is None or not isinstance(pipeline, RAGPipelineWithMemory):
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Memory system not available"
+        )
+
+    try:
+        pipeline.memory.update_user_preferences(user_id, request.preferences)
+
+        return {
+            "status": "updated",
+            "user_id": user_id,
+            "preferences": request.preferences
+        }
+
+    except Exception as e:
+        logger.error(f"Failed to update preferences: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to update preferences: {str(e)}"
+        )
+
+
+@app.get("/memory/sessions/{session_id}/summary", tags=["Memory"])
+async def get_session_summary(session_id: str):
+    """
+    Get session summary.
+
+    Returns statistics and summary for a conversation session.
+    """
+    if pipeline is None or not isinstance(pipeline, RAGPipelineWithMemory):
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Memory system not available"
+        )
+
+    try:
+        summary = pipeline.memory.get_session_summary(session_id)
+        return summary
+
+    except Exception as e:
+        logger.error(f"Failed to get session summary: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to get session summary: {str(e)}"
+        )
+
+
+@app.get("/memory/users/{user_id}/export", tags=["Memory"])
+async def export_user_data(user_id: str):
+    """
+    Export user data (GDPR data portability).
+
+    Returns all user data in portable format.
+    """
+    if pipeline is None or not isinstance(pipeline, RAGPipelineWithMemory):
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Memory system not available"
+        )
+
+    try:
+        data = pipeline.export_user_data(user_id)
+
+        if not data:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"No data found for user {user_id}"
+            )
+
+        return data
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to export user data: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to export user data: {str(e)}"
+        )
+
+
+@app.delete("/memory/users/{user_id}", tags=["Memory"])
+async def delete_user_data(user_id: str):
+    """
+    Delete all user data (GDPR right to be forgotten).
+
+    Permanently deletes all user data including profiles and conversations.
+    """
+    if pipeline is None or not isinstance(pipeline, RAGPipelineWithMemory):
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Memory system not available"
+        )
+
+    try:
+        pipeline.delete_user_data(user_id)
+
+        return {
+            "status": "deleted",
+            "user_id": user_id,
+            "message": "All user data has been permanently deleted"
+        }
+
+    except Exception as e:
+        logger.error(f"Failed to delete user data: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to delete user data: {str(e)}"
+        )
+
+
+@app.get("/memory/statistics", tags=["Memory"])
+async def get_memory_statistics():
+    """
+    Get memory system statistics.
+
+    Returns statistics about sessions, users, and memory usage.
+    """
+    if pipeline is None or not isinstance(pipeline, RAGPipelineWithMemory):
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Memory system not available"
+        )
+
+    try:
+        stats = pipeline.get_memory_statistics()
+        return stats
+
+    except Exception as e:
+        logger.error(f"Failed to get memory statistics: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to get memory statistics: {str(e)}"
         )
 
 
