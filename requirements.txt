@@ -39,6 +39,9 @@ plotly==5.24.1
 scipy>=1.10.0,<1.14.0
 statsmodels==0.14.4
 
+# Evaluation Metrics
+bert-score==0.3.13  # Semantic similarity using BERT embeddings
+
 # Reinforcement Learning
 gymnasium==1.0.0
 

@@ -59,6 +59,8 @@ data/processed/*.faiss
 data/synthetic/*.json
 data/memory/**/*.db
 data/memory/**/*.json
+results/evaluation/*.json
+results/evaluation/*.txt
 
 # Model checkpoints and weights
 *.pt
