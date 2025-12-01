@@ -1,0 +1,317 @@
+# Experiments Documentation
+
+This directory contains 6 comprehensive experiments for evaluating the AI Contraception Counseling System.
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Validate environment
+python run_experiments.py --validate
+
+# List all experiments
+python run_experiments.py --list
+
+# Run all experiments (2-3 hours)
+python run_experiments.py --all
+
+# Run specific experiments
+python run_experiments.py --exp 1 2 3
+```
+
+See [../READY_FOR_EXPERIMENTS.md](../READY_FOR_EXPERIMENTS.md) for complete guide.
+
+---
+
+## 📊 Experiment Overview
+
+| # | Name | Time | Status | Description |
+|---|------|------|--------|-------------|
+| **1** | Baseline Knowledge | 10-15 min | ✅ Ready | LLM knowledge without RAG |
+| **2** | Anchored Prompts | 10-15 min | ✅ Ready | Strict guideline following |
+| **3** | RAG Comparison | 15-20 min | ✅ Ready | RAG vs non-RAG performance |
+| **4a** | Long Session Forgetting | 20-30 min | ✅ Ready | Memory across long conversations |
+| **4b** | Multi-Session Memory | 20-30 min | ✅ Ready | Cross-session user profiles |
+| **5** | Adherence RL | 30-60 min | ✅ Ready | LinUCB reinforcement learning |
+
+**Total Time**: 2-3 hours for all experiments
+
+---
+
+## 📝 Experiment Details
+
+### Experiment 1: Baseline Knowledge Test
+**File**: [exp1_baseline_knowledge.py](exp1_baseline_knowledge.py)
+
+Tests LLM baseline knowledge without RAG retrieval.
+
+**Metrics**:
+- BERTScore F1 (semantic similarity)
+- Response latency
+- Exact match accuracy
+
+**Data**: `data/synthetic/qa_pairs.json` (200+ questions)
+**Output**: `results/tables/exp1_baseline_detailed.json`
+
+**Run**:
+```bash
+python run_experiments.py --exp 1
+```
+
+---
+
+### Experiment 2: Anchored Prompts
+**File**: [exp2_anchored_prompts.py](exp2_anchored_prompts.py)
+
+Evaluates strict guideline-following prompts.
+
+**Metrics**:
+- BERTScore F1 with anchored prompts
+- Safety fallback rate
+- Hallucination reduction
+
+**Data**: `data/synthetic/qa_pairs.json`
+**Output**: `results/tables/exp2_anchored_detailed.json`
+
+**Run**:
+```bash
+python run_experiments.py --exp 2
+```
+
+---
+
+### Experiment 3: RAG Comparison
+**File**: [exp3_rag_comparison.py](exp3_rag_comparison.py)
+
+**Critical experiment** - proves RAG improves accuracy over baseline.
+
+**Metrics**:
+- BERTScore F1 (baseline vs RAG)
+- Citation/grounding rate
+- Statistical significance (paired t-test)
+
+**Data**: `data/synthetic/qa_pairs.json`
+**Output**: `results/tables/exp3_rag_comparison_detailed.json`
+
+**Run**:
+```bash
+python run_experiments.py --exp 3
+```
+
+---
+
+### Experiment 4a: Long Session Forgetting
+**File**: [exp4a_long_session_forgetting.py](exp4a_long_session_forgetting.py)
+
+Tests memory across 30+ turn conversations.
+
+**Metrics**:
+- Context retention rate
+- Forgetting rate
+- Response quality degradation
+
+**Data**: `data/synthetic/long_session_conversations.json`
+**Output**: `results/tables/exp4a_long_session_detailed.json`
+
+**Run**:
+```bash
+python run_experiments.py --exp 4
+```
+
+---
+
+### Experiment 4b: Multi-Session Memory
+**File**: [exp4b_multi_session_memory.py](exp4b_multi_session_memory.py)
+
+Tests memory across multiple sessions.
+
+**Strategies Tested**:
+1. No memory (baseline)
+2. Full conversation history
+3. Summarized memory
+
+**Metrics**:
+- Recall accuracy
+- Personalization consistency
+- Memory strategy comparison
+
+**Data**: `data/synthetic/multi_session_scenarios.json`
+**Output**: `results/tables/exp4b_multi_session_detailed.json`
+
+**Run**:
+```bash
+python run_experiments.py --exp 5
+```
+
+---
+
+### Experiment 5: Adherence RL
+**File**: [exp5_adherence_rl.py](exp5_adherence_rl.py)
+
+Tests LinUCB reinforcement learning for adherence reminders.
+
+**Algorithms Tested**:
+1. LinUCB (contextual bandit)
+2. Fixed strategy (baseline)
+3. Random strategy (baseline)
+
+**Metrics**:
+- Cumulative reward
+- Regret vs oracle
+- Convergence rate
+
+**Data**: `data/synthetic/adherence_dataset.json`
+**Output**: `results/tables/exp5_adherence_rl_detailed.json`
+
+**Run**:
+```bash
+python run_experiments.py --exp 6
+```
+
+---
+
+## 📈 Metrics Reference
+
+### BERTScore
+- **F1**: Harmonic mean of precision and recall
+- **Precision**: How much of prediction is in reference
+- **Recall**: How much of reference is in prediction
+- **Range**: 0.0 - 1.0 (higher is better)
+
+### Statistical Tests
+- **Paired t-test**: Compare related samples
+- **Significance**: α = 0.05
+- **Interpretation**: p < 0.05 = significant difference
+
+### RL Metrics
+- **Cumulative Reward**: Total reward over all rounds
+- **Average Reward**: Mean reward per round
+- **Regret**: Difference from optimal policy
+
+---
+
+## 📁 Results Structure
+
+```
+results/
+├── tables/                          # JSON result files
+│   ├── exp1_baseline_detailed.json
+│   ├── exp1_baseline_summary.json
+│   ├── exp2_anchored_detailed.json
+│   ├── exp3_rag_comparison_detailed.json
+│   ├── exp4a_long_session_detailed.json
+│   ├── exp4b_multi_session_detailed.json
+│   └── exp5_adherence_rl_detailed.json
+├── plots/                           # Visualizations
+│   └── (generated by experiments)
+├── logs/                            # Execution logs
+│   └── experiment_run_TIMESTAMP.log
+└── experiment_summary_TIMESTAMP.json  # Overall summary
+```
+
+---
+
+## 🔧 Prerequisites
+
+### Required
+- Python 3.10+
+- Ollama running with llama3.2
+- Virtual environment activated
+- Dependencies installed
+
+### Verification
+```bash
+# Check Ollama
+ollama list
+# Should show: llama3.2 and aya:8b
+
+# Validate environment
+python run_experiments.py --validate
+# Should show: [PASS] ENVIRONMENT VALIDATION PASSED
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### "Ollama not responding"
+```bash
+# Start Ollama
+ollama serve
+```
+
+### "BERTScore is slow"
+**Note**: First run downloads BERT model (~400MB). Subsequent runs are faster.
+
+### "Out of memory"
+**Solution**:
+- Close other applications
+- Run experiments one at a time
+- Restart Python between experiments
+
+### "Missing data file"
+```bash
+# Check if vector store exists
+ls data/processed/vector_store/
+# Should show: faiss.index and chunks.json
+```
+
+---
+
+## 📊 Expected Results
+
+After running all experiments, you'll have:
+
+- **Quantitative metrics**: BERTScore F1, latency, accuracy
+- **Statistical tests**: p-values, confidence intervals
+- **Comparison data**: RAG vs baseline
+- **Error analysis**: Hallucination rates, citation accuracy
+- **Publication-ready tables**: For thesis/papers
+
+---
+
+## 🔬 For Your Thesis
+
+### Results provide:
+1. **Baseline performance** (Exp 1)
+2. **Safety improvements** (Exp 2)
+3. **RAG effectiveness** (Exp 3) - **CRITICAL**
+4. **Memory capabilities** (Exp 4a, 4b)
+5. **Adherence optimization** (Exp 5)
+
+### Key Findings to Report:
+- RAG vs non-RAG improvement (Exp 3)
+- Hallucination reduction (Exp 2, 3)
+- Memory retention rate (Exp 4a, 4b)
+- RL performance gains (Exp 5)
+
+---
+
+## 📚 Related Documentation
+
+- [../run_experiments.py](../run_experiments.py) - Experiment runner
+- [../READY_FOR_EXPERIMENTS.md](../READY_FOR_EXPERIMENTS.md) - Execution guide
+- [../SYSTEM_READINESS_REPORT.md](../SYSTEM_READINESS_REPORT.md) - System validation
+- [../SYSTEM_ARCHITECTURE.md](../SYSTEM_ARCHITECTURE.md) - Architecture details
+
+---
+
+## ✅ All Systems Ready
+
+**Status**: All experiments ready to run
+**Data**: All required datasets present
+**Models**: llama3.2 and aya:8b installed
+**Validation**: Environment passed
+
+**You can start experiments now!**
+
+```bash
+# Run all experiments
+python run_experiments.py --all
+```
+
+---
+
+**Last Updated**: December 1, 2025
+**Status**: Production Ready ✅

@@ -70,3 +70,10 @@ loguru==0.7.3
 tqdm==4.67.1
 python-dateutil==2.9.0.post0
 requests==2.32.3
+
+# Ollama (for local LLM inference)
+ollama==0.6.1
+
+# Transformers and dependencies
+transformers>=4.30.0
+safetensors>=0.3.1
