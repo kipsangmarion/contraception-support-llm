@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # Main API service
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: contraception-counseling-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount data directories for persistence
+      - ./data/memory:/app/data/memory
+      - ./data/logs:/app/data/logs
+      # Mount config for easy updates
+      - ./configs:/app/configs:ro
+    environment:
+      - ENVIRONMENT=production
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Ollama service for LLM (optional - if running Ollama in Docker)
+  # Uncomment if you want to run Ollama in a container
+  # ollama:
+  #   image: ollama/ollama:latest
+  #   container_name: ollama-llm
+  #   ports:
+  #     - "11434:11434"
+  #   volumes:
+  #     - ollama_data:/root/.ollama
+  #   restart: unless-stopped
+
+# Volumes for persistent data
+# Uncomment if using Ollama container
+# volumes:
+#   ollama_data:
+#     driver: local
+
+networks:
+  default:
+    name: contraception-network
