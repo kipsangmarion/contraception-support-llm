@@ -7,7 +7,7 @@ Generates responses using LLM and retrieved context.
 from typing import Dict, List, Optional
 from loguru import logger
 
-from src.utils.llm_client import LLMClient
+from src.utils.multilang_llm_client import MultiLanguageLLMClient
 
 
 class RAGGenerator:
@@ -97,8 +97,8 @@ Hari uburyo bwo kuboneza urubyaro ushaka kumenya byinshi?"""
         Args:
             llm_config: LLM configuration (provider, model, etc.)
         """
-        self.llm_client = LLMClient(llm_config)
-        logger.info(f"RAGGenerator initialized with {llm_config['provider']} provider")
+        self.llm_client = MultiLanguageLLMClient(llm_config)
+        logger.info(f"RAGGenerator initialized with multi-language routing: {MultiLanguageLLMClient.LANGUAGE_MODELS}")
 
     def _build_prompt(
         self,
@@ -194,13 +194,14 @@ Please provide a helpful, accurate response based on the context above. If the c
             conversation_history=conversation_history
         )
 
-        # Generate response
+        # Generate response with language-specific model
         try:
             response = self.llm_client.generate(
                 prompt=prompt,
                 system_prompt=system_prompt,
                 temperature=temperature,
-                max_tokens=max_tokens
+                max_tokens=max_tokens,
+                language=language  # Route to appropriate model
             )
 
             # Check if response is empty or too short (potential failure)
