@@ -10,11 +10,14 @@ Provides REST API endpoints for:
 
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse, HTMLResponse, FileResponse
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict
 from datetime import datetime
 import uuid
 from loguru import logger
+from pathlib import Path
 
 from src.rag.rag_pipeline import RAGPipeline, RAGPipelineWithMemory
 from src.utils.data_collection import DataCollector
@@ -40,6 +43,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Mount static files for web UI
+static_dir = Path(__file__).resolve().parent.parent.parent / "static"
+if static_dir.exists():
+    app.mount("/static", StaticFiles(directory=str(static_dir.absolute()), html=True), name="static")
+    logger.info(f"Static files mounted from: {static_dir}")
+else:
+    logger.warning(f"Static directory not found: {static_dir}")
 
 # Global pipeline instance
 pipeline: Optional[RAGPipeline] = None
@@ -178,20 +189,45 @@ async def shutdown_event():
 # API Endpoints
 @app.get("/", tags=["General"])
 async def root():
-    """Root endpoint with API information."""
-    return {
-        "name": "Contraception Counseling API",
-        "version": "1.0.0",
-        "status": "running",
-        "docs": "/docs",
-        "endpoints": {
-            "query": "/counsel/query",
-            "feedback": "/counsel/feedback",
-            "conversation": "/counsel/conversation/{session_id}",
-            "health": "/health",
-            "stats": "/stats"
+    """Root endpoint - serves web UI directly."""
+    # Serve the HTML file directly
+    html_file = static_dir / "index.html"
+    if html_file.exists():
+        return FileResponse(str(html_file))
+    else:
+        # Fallback to API information if UI not available
+        return {
+            "name": "Contraception Counseling API",
+            "version": "1.0.0",
+            "status": "running",
+            "docs": "/docs",
+            "web_ui": "/static/index.html (not available)",
+            "endpoints": {
+                "query": "/counsel/query",
+                "feedback": "/counsel/feedback",
+                "conversation": "/counsel/conversation/{session_id}",
+                "health": "/health",
+                "stats": "/stats"
+            }
         }
-    }
+
+
+@app.get("/static/css/style.css")
+async def serve_css():
+    """Serve CSS file."""
+    css_file = static_dir / "css" / "style.css"
+    if css_file.exists():
+        return FileResponse(str(css_file), media_type="text/css")
+    raise HTTPException(status_code=404, detail="CSS file not found")
+
+
+@app.get("/static/js/chat.js")
+async def serve_js():
+    """Serve JavaScript file."""
+    js_file = static_dir / "js" / "chat.js"
+    if js_file.exists():
+        return FileResponse(str(js_file), media_type="application/javascript")
+    raise HTTPException(status_code=404, detail="JS file not found")
 
 
 @app.get("/health", response_model=HealthResponse, tags=["General"])
