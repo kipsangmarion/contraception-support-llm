@@ -9,20 +9,20 @@ An AI-powered contraception counseling system using RAG (Retrieval-Augmented Gen
 
 ---
 
-## 🎯 Overview
+## Overview
 
 This project implements a comprehensive AI system for evidence-based contraception counseling with:
 
-- ✅ **RAG Pipeline**: Guideline-grounded responses from 5,460 WHO/BCS+ document chunks
-- ✅ **Multi-Language Support**: English, French, and Kinyarwanda with language-specific model routing
-- ✅ **Memory Management**: Session-based conversation history and cross-session user profiles
-- ✅ **Privacy-First Design**: Anonymous IDs, opt-in data collection, GDPR compliance
-- ✅ **Comprehensive Evaluation**: BERTScore, hallucination detection, citation accuracy
-- ✅ **Production-Ready**: FastAPI, Docker, extensive testing
+- **RAG Pipeline**: Guideline-grounded responses from 5,460 WHO/BCS+ document chunks
+- **Multi-Language Support**: English, French, and Kinyarwanda with language-specific model routing
+- **Memory Management**: Session-based conversation history and cross-session user profiles
+- **Privacy-First Design**: Anonymous IDs, opt-in data collection, GDPR compliance
+- **Comprehensive Evaluation**: BERTScore, hallucination detection, citation accuracy
+- **Production-Ready**: FastAPI, Docker, extensive testing
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Python 3.10+
@@ -66,7 +66,7 @@ uvicorn src.api.main:app --reload --host 0.0.0.0 --port 8000
 
 ---
 
-## 📊 Experiments
+## Experiments
 
 The system includes 6 comprehensive experiments for evaluation:
 
@@ -92,11 +92,9 @@ python run_experiments.py --exp 1 2 3
 5. **Multi-Session Memory** (20-30 min) - Cross-session user profiles
 6. **Adherence RL** (30-60 min) - Reinforcement learning for reminders
 
-See [READY_FOR_EXPERIMENTS.md](READY_FOR_EXPERIMENTS.md) for detailed guide.
-
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 contraception-support-llm/
@@ -139,7 +137,7 @@ contraception-support-llm/
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### High-Level System Architecture
 
@@ -178,7 +176,7 @@ See [SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md) for comprehensive architect
 
 ---
 
-## 🔑 Key Features
+## Key Features
 
 ### 1. RAG Pipeline
 - **Vector Store**: 5,460 chunks from WHO FP Handbook 2022 + BCS+ Toolkit
@@ -223,7 +221,7 @@ LANGUAGE_MODELS = {
 
 ---
 
-## 🔧 API Endpoints
+## API Endpoints
 
 ### Counseling
 ```bash
@@ -283,7 +281,7 @@ See [SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md) for complete API documentat
 
 ---
 
-## 📈 Evaluation Results
+## Evaluation Results
 
 ### Key Metrics
 | Metric | Value | Method |
@@ -295,12 +293,12 @@ See [SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md) for complete API documentat
 | **Memory Retention** | TBD | Across sessions |
 
 ### Experiment Coverage
-- ✅ Baseline knowledge assessment
-- ✅ Anchored prompt evaluation
-- ✅ RAG vs non-RAG comparison
-- ✅ Long-session memory testing
-- ✅ Multi-session profile consistency
-- ✅ Adherence optimization (LinUCB)
+- Baseline knowledge assessment
+- Anchored prompt evaluation
+- RAG vs non-RAG comparison
+- Long-session memory testing
+- Multi-session profile consistency
+- Adherence optimization (LinUCB)
 
 Run experiments to generate metrics:
 ```bash
@@ -309,7 +307,7 @@ python run_experiments.py --all
 
 ---
 
-## 💻 Technology Stack
+## Technology Stack
 
 | Component | Technology | Version |
 |-----------|-----------|---------|
@@ -326,7 +324,7 @@ python run_experiments.py --all
 
 ---
 
-## 🛠️ Configuration
+## Configuration
 
 Edit [configs/config.yaml](configs/config.yaml) to customize:
 
@@ -359,7 +357,7 @@ memory:
 
 ---
 
-## 📚 Documentation
+## Documentation
 
 | Document | Description |
 |----------|-------------|
@@ -372,7 +370,7 @@ memory:
 
 ---
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
 ```bash
 # Build image
@@ -390,7 +388,7 @@ docker-compose down
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run unit tests
@@ -405,7 +403,7 @@ pytest tests/integration/
 
 ---
 
-## 🔍 Monitoring
+## Monitoring
 
 ### Logging
 - **Level**: INFO (configurable)
@@ -426,9 +424,9 @@ pytest tests/integration/
 
 ---
 
-## 🚦 Status & Roadmap
+## Status & Roadmap
 
-### ✅ Completed
+### Completed
 - Core RAG pipeline with WHO/BCS+ guidelines
 - Multi-language support (EN/FR/RW)
 - Memory management and user profiles
@@ -439,7 +437,7 @@ pytest tests/integration/
 - Docker containerization
 - Experiment runner with validation
 
-### 🚧 Future Enhancements
+### Future Enhancements
 - Cloud deployment guides (AWS, Azure, GCP)
 - Mobile application (React Native)
 - Advanced adherence support
@@ -449,7 +447,7 @@ pytest tests/integration/
 
 ---
 
-## 📖 Academic Context
+## Academic Context
 
 This is a **graduate-level capstone project** demonstrating:
 
@@ -468,7 +466,7 @@ This is a **graduate-level capstone project** demonstrating:
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 ### Data Sources
 - **WHO Family Planning Handbook 2022** - Primary medical guidelines
@@ -484,7 +482,7 @@ This is a **graduate-level capstone project** demonstrating:
 
 ---
 
-## 📧 Contact
+## Contact
 
 For questions or collaboration:
 - Create an issue in the repository
@@ -492,13 +490,13 @@ For questions or collaboration:
 
 ---
 
-## 📄 License
+## License
 
 MIT License - See LICENSE file for details
 
 ---
 
-## 🎓 Citation
+## Citation
 
 If you use this system in your research, please cite:
 
@@ -515,5 +513,5 @@ If you use this system in your research, please cite:
 
 **Built with ❤️ for improving global access to evidence-based contraception counseling**
 
-**Status**: Production Ready ✅
+**Status**: Production Ready
 **Last Updated**: December 1, 2025
