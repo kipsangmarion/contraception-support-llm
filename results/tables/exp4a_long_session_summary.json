@@ -1,0 +1,11 @@
+{
+  "experiment": "Experiment 4A: Long-Session Forgetting Test",
+  "model": "llama3.2",
+  "num_conversations": 10,
+  "total_turns": 331,
+  "avg_turns_per_conversation": 33.1,
+  "total_contradictions": 15532,
+  "avg_contradiction_rate": 45.306901622359625,
+  "avg_recall_accuracy": 0.38,
+  "timestamp": "2025-12-02T00:30:58.829659"
+}
