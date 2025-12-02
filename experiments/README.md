@@ -4,7 +4,7 @@ This directory contains 6 comprehensive experiments for evaluating the AI Contra
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # Validate environment
@@ -24,22 +24,22 @@ See [../READY_FOR_EXPERIMENTS.md](../READY_FOR_EXPERIMENTS.md) for complete guid
 
 ---
 
-## 📊 Experiment Overview
+## Experiment Overview
 
 | # | Name | Time | Status | Description |
 |---|------|------|--------|-------------|
-| **1** | Baseline Knowledge | 10-15 min | ✅ Ready | LLM knowledge without RAG |
-| **2** | Anchored Prompts | 10-15 min | ✅ Ready | Strict guideline following |
-| **3** | RAG Comparison | 15-20 min | ✅ Ready | RAG vs non-RAG performance |
-| **4a** | Long Session Forgetting | 20-30 min | ✅ Ready | Memory across long conversations |
-| **4b** | Multi-Session Memory | 20-30 min | ✅ Ready | Cross-session user profiles |
-| **5** | Adherence RL | 30-60 min | ✅ Ready | LinUCB reinforcement learning |
+| **1** | Baseline Knowledge | 10-15 min | Ready | LLM knowledge without RAG |
+| **2** | Anchored Prompts | 10-15 min | Ready | Strict guideline following |
+| **3** | RAG Comparison | 15-20 min | Ready | RAG vs non-RAG performance |
+| **4a** | Long Session Forgetting | 20-30 min | Ready | Memory across long conversations |
+| **4b** | Multi-Session Memory | 20-30 min | Ready | Cross-session user profiles |
+| **5** | Adherence RL | 30-60 min | Ready | LinUCB reinforcement learning |
 
 **Total Time**: 2-3 hours for all experiments
 
 ---
 
-## 📝 Experiment Details
+## Experiment Details
 
 ### Experiment 1: Baseline Knowledge Test
 **File**: [exp1_baseline_knowledge.py](exp1_baseline_knowledge.py)
@@ -171,7 +171,7 @@ python run_experiments.py --exp 6
 
 ---
 
-## 📈 Metrics Reference
+## Metrics Reference
 
 ### BERTScore
 - **F1**: Harmonic mean of precision and recall
@@ -191,7 +191,7 @@ python run_experiments.py --exp 6
 
 ---
 
-## 📁 Results Structure
+## Results Structure
 
 ```
 results/
@@ -212,7 +212,7 @@ results/
 
 ---
 
-## 🔧 Prerequisites
+## Prerequisites
 
 ### Required
 - Python 3.10+
@@ -233,7 +233,7 @@ python run_experiments.py --validate
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### "Ollama not responding"
 ```bash
@@ -259,7 +259,7 @@ ls data/processed/vector_store/
 
 ---
 
-## 📊 Expected Results
+## Expected Results
 
 After running all experiments, you'll have:
 
@@ -271,7 +271,7 @@ After running all experiments, you'll have:
 
 ---
 
-## 🔬 For Your Thesis
+## For Your Thesis
 
 ### Results provide:
 1. **Baseline performance** (Exp 1)
@@ -288,7 +288,7 @@ After running all experiments, you'll have:
 
 ---
 
-## 📚 Related Documentation
+## Related Documentation
 
 - [../run_experiments.py](../run_experiments.py) - Experiment runner
 - [../READY_FOR_EXPERIMENTS.md](../READY_FOR_EXPERIMENTS.md) - Execution guide
@@ -297,7 +297,7 @@ After running all experiments, you'll have:
 
 ---
 
-## ✅ All Systems Ready
+## All Systems Ready
 
 **Status**: All experiments ready to run
 **Data**: All required datasets present
@@ -314,4 +314,4 @@ python run_experiments.py --all
 ---
 
 **Last Updated**: December 1, 2025
-**Status**: Production Ready ✅
+**Status**: Production Ready 

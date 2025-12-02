@@ -44,7 +44,7 @@ class MultiSessionMemoryTest:
 
     def __init__(self, model_name: str = "llama3.2"):
         self.model_name = model_name
-        self.generator = RAGGenerator(model_name=model_name)
+        self.generator = RAGGenerator(llm_config={'provider': 'ollama', 'model_name': model_name})
         self.evaluator = EvaluationMetrics()
         self.results = {
             "no_memory": [],
@@ -69,10 +69,9 @@ class MultiSessionMemoryTest:
 
                 # Generate without any memory context
                 response = self.generator.generate(
-                    question=question,
-                    context_docs=[],
-                    language="english",
-                    session_id=session_id
+                    query=question,
+                    context="",
+                    language="english"
                 )
 
                 if is_recall:
@@ -111,14 +110,13 @@ class MultiSessionMemoryTest:
                 expected = turn.get('expected_recall', '')
 
                 # Get full conversation history
-                history = memory.get_conversation(session_id)
+                history = memory.get_history(session_id)
 
                 # Generate with full history context
                 response = self.generator.generate(
-                    question=question,
-                    context_docs=[],
+                    query=question,
+                    context="",
                     language="english",
-                    session_id=session_id,
                     conversation_history=history
                 )
 
@@ -169,13 +167,11 @@ class MultiSessionMemoryTest:
                     for i, summ in enumerate(session_summaries)
                 ])
 
-                # Generate response
+                # Generate response (use summary_context as the context)
                 response = self.generator.generate(
-                    question=question,
-                    context_docs=[],
-                    language="english",
-                    session_id=session_id,
-                    additional_context=summary_context if summary_context else None
+                    query=question,
+                    context=summary_context if summary_context else "",
+                    language="english"
                 )
 
                 session_turns.append({
@@ -275,7 +271,7 @@ class MultiSessionMemoryTest:
                 "improvement_vs_none": float(full_mem_accuracy - no_mem_accuracy),
                 "t_vs_none": float(t_full_vs_none),
                 "p_vs_none": float(p_full_vs_none),
-                "significant_vs_none": p_full_vs_none < 0.05
+                "significant_vs_none": bool(p_full_vs_none < 0.05)
             },
 
             "summarized_memory": {
@@ -284,13 +280,13 @@ class MultiSessionMemoryTest:
                 "improvement_vs_none": float(summ_mem_accuracy - no_mem_accuracy),
                 "t_vs_none": float(t_summ_vs_none),
                 "p_vs_none": float(p_summ_vs_none),
-                "significant_vs_none": p_summ_vs_none < 0.05
+                "significant_vs_none": bool(p_summ_vs_none < 0.05)
             },
 
             "full_vs_summarized": {
                 "t_statistic": float(t_full_vs_summ),
                 "p_value": float(p_full_vs_summ),
-                "significant": p_full_vs_summ < 0.05
+                "significant": bool(p_full_vs_summ < 0.05)
             },
 
             "timestamp": datetime.now().isoformat()

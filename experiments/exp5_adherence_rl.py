@@ -318,14 +318,14 @@ class AdherenceRLExperiment:
                     "improvement_percent": float((linucb_results['avg_reward'] - fixed_results['avg_reward']) / fixed_results['avg_reward'] * 100),
                     "t_statistic": float(t_linucb_vs_fixed),
                     "p_value": float(p_linucb_vs_fixed),
-                    "significant": p_linucb_vs_fixed < 0.05
+                    "significant": bool(p_linucb_vs_fixed < 0.05)
                 },
                 "linucb_vs_random": {
                     "improvement": float(linucb_results['avg_reward'] - random_results['avg_reward']),
                     "improvement_percent": float((linucb_results['avg_reward'] - random_results['avg_reward']) / random_results['avg_reward'] * 100),
                     "t_statistic": float(t_linucb_vs_random),
                     "p_value": float(p_linucb_vs_random),
-                    "significant": p_linucb_vs_random < 0.05
+                    "significant": bool(p_linucb_vs_random < 0.05)
                 }
             },
 

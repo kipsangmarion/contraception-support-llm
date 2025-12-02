@@ -127,7 +127,7 @@ Provide an accurate, guideline-based answer:"""
 
         for i, item in enumerate(questions, 1):
             question = item.get('question', '')
-            reference = item.get('answer', '')
+            reference = item.get('ground_truth', '')
 
             logger.info(f"Processing question {i}/{len(questions)}")
 

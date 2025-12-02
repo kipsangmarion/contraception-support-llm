@@ -40,7 +40,7 @@ class LongSessionForgettingTest:
 
     def __init__(self, model_name: str = "llama3.2"):
         self.model_name = model_name
-        self.generator = RAGGenerator(model_name=model_name)
+        self.generator = RAGGenerator(llm_config={'provider': 'ollama', 'model_name': model_name})
         self.results = []
 
     def detect_contradiction(self, statement1: str, statement2: str) -> bool:
@@ -104,10 +104,9 @@ class LongSessionForgettingTest:
 
             # Generate response
             response = self.generator.generate(
-                question=question,
-                context_docs=[],  # Using without retrieval to test pure memory
-                language="english",
-                session_id=session_id
+                query=question,
+                context="",  # Using without retrieval to test pure memory
+                language="english"
             )
 
             answer = response['response']

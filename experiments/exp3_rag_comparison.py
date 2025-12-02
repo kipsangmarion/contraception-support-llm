@@ -47,9 +47,13 @@ class RAGComparisonTest:
         self.evaluator = EvaluationMetrics()
 
         # Initialize RAG components
-        # RAGRetriever will be initialized with config in run_experiment
-        self.retriever = None
-        self.generator = None
+        self.retriever = RAGRetriever(
+            vector_store_path="data/processed/vector_store",
+            embeddings_config={'model_name': 'all-MiniLM-L6-v2', 'provider': 'sentence-transformers'}
+        )
+        self.generator = RAGGenerator(
+            llm_config={'provider': 'ollama', 'model_name': model_name}
+        )
 
         self.results = []
 
@@ -90,23 +94,26 @@ Answer:"""
             # Retrieve relevant documents
             docs = self.retriever.retrieve(question, top_k=3)
 
+            # Build context from retrieved documents
+            context = "\n\n".join([doc.get('text', '') for doc in docs])
+
             # Generate response
             response = self.generator.generate(
-                question=question,
-                context_docs=docs,
+                query=question,
+                context=context,
                 language="english"
             )
 
             latency = time.time() - start_time
-            has_citations = len(response.get('sources', [])) > 0
-            num_sources = len(response.get('sources', []))
+            has_citations = len(response.get('citations', [])) > 0
+            num_sources = len(response.get('citations', []))
 
             return {
                 "answer": response['response'],
                 "latency": latency,
                 "has_citations": has_citations,
                 "num_sources": num_sources,
-                "sources": response.get('sources', []),
+                "sources": response.get('citations', []),
                 "success": True
             }
         except Exception as e:
@@ -140,7 +147,7 @@ Answer:"""
 
         for i, item in enumerate(questions, 1):
             question = item.get('question', '')
-            reference = item.get('answer', '')
+            reference = item.get('ground_truth', '')
 
             logger.info(f"Processing question {i}/{len(questions)}")
 
@@ -211,8 +218,8 @@ Answer:"""
         baseline_latency = np.mean(baseline_latencies)
         rag_latency = np.mean(rag_latencies)
 
-        citation_rate = sum(1 for c in citation_counts if c > 0) / len(citation_counts)
-        avg_citations = np.mean(citation_counts)
+        citation_rate = sum(1 for c in citation_counts if c > 0) / len(citation_counts) if len(citation_counts) > 0 else 0
+        avg_citations = np.mean(citation_counts) if len(citation_counts) > 0 else 0
 
         # Statistical significance test (paired t-test)
         t_stat, p_value = stats.ttest_rel(rag_scores['f1'], baseline_scores['f1'])
@@ -240,7 +247,7 @@ Answer:"""
                 "f1_improvement_percent": float((rag_f1 - baseline_f1) / baseline_f1 * 100),
                 "t_statistic": float(t_stat),
                 "p_value": float(p_value),
-                "significant_at_0.05": p_value < 0.05
+                "significant_at_0.05": bool(p_value < 0.05)
             },
 
             "timestamp": datetime.now().isoformat()
