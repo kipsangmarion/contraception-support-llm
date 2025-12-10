@@ -1,0 +1,34 @@
+{
+  "exp1_fully_compliant": {
+    "test_case_id": "mec_001",
+    "scenario": "I'm breastfeeding my 3-week-old baby. Can I start taking birth control pills?",
+    "model_response": "Congratulations on your new baby!  \nHere are the key points about starting birth-control pills while you are breastfeeding a 3-week-old:\n\n1. Types of pills\n   • Progestin-only pill (POP, “mini-pill”) – contains no estrogen.  \n   • Combined oral contraceptive (COC) – contains both estrogen and progestin.\n\n2. What the guidelines say for breastfeeding women\n   • Progestin-only pill  \n     ‑ World Health Organization (WHO) Medical Eligibility Criteria: Category 2 for breastfeeding mothers <6 weeks postpartum (benefits generally outweigh any theoretical risks).  \n     ‑ Therefore you may start a POP any time now if you wish.  \n\n   • Combined pill (estrogen-containing)  \n     ‑ <6 weeks postpartum while breastfeeding: Category 4 (unacceptable risk)—main concerns are reduced milk supply and higher risk of blood clots.  \n     ‑ You should wait until at least 6 weeks postpartum, and many clinicians advise waiting until 6 months or once breastfeeding is well established and you are no longer exclusively breastfeeding.\n\n3. Effect on breast-milk supply\n   • POPs have not been shown to decrease milk volume in most studies.  \n   • Estrogen in combined pills can lower milk supply, especially this early.\n\n4. How to start a progestin-only pill\n   • You can start any day. Take one pill at the same time every day with no pill-free week.  \n   • Use a backup method (condoms) for the first 48 hours after the first pill.  \n   • If you are exclusively breastfeeding, you already have some protection from the lactational amenorrhea method (LAM), but adding the POP increases effectiveness.\n\n5. Other postpartum options you could consider\n   • Implants (e.g., Nexplanon), the 3-month injection (Depo-Provera), or a hormonal or copper IUD can all be used immediately or soon after delivery and do not affect milk supply.  \n   • Barrier methods (condoms, diaphragm) or continued LAM if you meet all three criteria (exclusive/near-exclusive breastfeeding, baby <6 months, no return of menses).\n\n6. Next steps\n   • Contact your obstetrician, midwife, or primary-care clinician to get a prescription and review which progestin-only formulation is available to you.  \n   • Schedule your routine postpartum visit (usually around 6 weeks) to reassess your contraceptive needs and overall health.\n\nBottom line: At 3 weeks postpartum, choose a progestin-only pill (or another progestin-only method) if you want to start hormonal contraception now. Wait until at least 6 weeks (preferably later) before considering an estrogen-containing combined pill.",
+    "compliance_score": 2,
+    "critical_issue": false,
+    "reasoning": ""
+  },
+  "exp3_rag_degraded": {
+    "test_case_id": "mec_001",
+    "scenario": "I'm breastfeeding my 3-week-old baby. Can I start taking birth control pills?",
+    "model_response": "Based on the guidance you fall into two groups for which combined oral contraceptive pills (“the Pill”) are not advised:\n\n• You are breastfeeding an infant less than 6 months old (Sources 2, 3, 4).  \n• You are still within 21 days (3 weeks) of giving birth (Sources 2, 3, 4).\n\nBecause of these two factors, starting combined birth-control pills now is not recommended. You can talk with a health-care provider about methods that are considered suitable immediately after childbirth and while breastfeeding, such as injectables like NET-EN or other options (Source 1).",
+    "compliance_score": 1,
+    "critical_issue": false,
+    "reasoning": ""
+  },
+  "grok_improvement": {
+    "exp1": {
+      "test_case_id": "mec_011",
+      "scenario": "[Placeholder for MEC test case 11]",
+      "model_response": "Hi! I'm here to provide accurate info on contraception. What's your question?",
+      "compliance_score": 0,
+      "critical_issue": true
+    },
+    "exp2": {
+      "test_case_id": "mec_011",
+      "scenario": "[Placeholder for MEC test case 11]",
+      "model_response": "I'm not familiar with a specific \"MEC test case 11\" from the WHO Medical Eligibility Criteria or related materials. To provide accurate, evidence-based counseling, could you please share more details about the client's age, medical history, current health condition, and the method they're interested in? In the meantime, I strongly recommend consulting a qualified healthcare provider for a personalized assessment using the WHO MEC wheel or tables, as individual circumstances can affect eligibility (categories 1-4). They can ensure safe, informed choices. How else can I assist?",
+      "compliance_score": 1,
+      "critical_issue": false
+    }
+  }
+}
