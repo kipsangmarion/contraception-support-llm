@@ -3,9 +3,11 @@ python-dotenv==1.0.0
 
 # LLM and Embeddings
 openai==1.54.3
-anthropic==0.39.0
+anthropic>=0.40.0  # Updated for httpx 0.28+ compatibility
+google-generativeai==0.8.3  # For Gemini models
 sentence-transformers==3.3.1
 tiktoken==0.8.0
+httpx>=0.28.0  # Explicit HTTP client for API calls
 
 # RAG and Vector Store
 langchain==0.3.7

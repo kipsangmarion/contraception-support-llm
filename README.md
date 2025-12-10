@@ -1,7 +1,7 @@
 # AI Contraception Counseling System
 
 **Graduate Capstone Project**
-An AI-powered contraception counseling system using RAG (Retrieval-Augmented Generation) grounded in WHO Family Planning Handbook 2022 and BCS+ Toolkit guidelines.
+An AI-powered contraception counseling system using compliance-aware prompting grounded in WHO Family Planning Handbook 2022 and BCS+ Toolkit guidelines.
 
 [![Status](https://img.shields.io/badge/status-production--ready-green)]()
 [![Python](https://img.shields.io/badge/python-3.10+-blue)]()
@@ -13,12 +13,14 @@ An AI-powered contraception counseling system using RAG (Retrieval-Augmented Gen
 
 This project implements a comprehensive AI system for evidence-based contraception counseling with:
 
-- **RAG Pipeline**: Guideline-grounded responses from 5,460 WHO/BCS+ document chunks
-- **Multi-Language Support**: English, French, and Kinyarwanda with language-specific model routing
+- **Compliance-Aware Approach**: Direct LLM generation with WHO/BCS+ compliance-aware system prompts (76.25% compliant, 0 critical issues)
+- **Multi-Language Support**: English, French, and Kinyarwanda using Claude Opus 4.5
 - **Memory Management**: Session-based conversation history and cross-session user profiles
 - **Privacy-First Design**: Anonymous IDs, opt-in data collection, GDPR compliance
-- **Comprehensive Evaluation**: BERTScore, hallucination detection, citation accuracy
+- **Comprehensive Evaluation**: Compliance scoring, hallucination detection, safety assessment
 - **Production-Ready**: FastAPI, Docker, extensive testing
+
+**Note**: This system uses Experiment 2's compliance-aware prompting approach, which outperformed RAG-based retrieval by 41% in compliance metrics.
 
 ---
 
@@ -26,9 +28,9 @@ This project implements a comprehensive AI system for evidence-based contracepti
 
 ### Prerequisites
 - Python 3.10+
-- [Ollama](https://ollama.ai) installed
-- 8GB+ RAM (for LLM models)
-- 10GB+ disk space
+- Anthropic API key (for Claude Opus 4.5)
+- 4GB+ RAM
+- 2GB+ disk space
 
 ### Installation
 
@@ -45,12 +47,12 @@ venv\Scripts\activate     # Windows
 # 3. Install dependencies
 pip install -r requirements.txt
 
-# 4. Download LLM models
-ollama pull llama3.2       # English/French (2.0 GB)
-ollama pull aya:8b         # Kinyarwanda (4.8 GB) - optional
+# 4. Set up environment
+python setup_env.py  # Creates .env file and sets ANTHROPIC_API_KEY
 
-# 5. Start Ollama server
-ollama serve
+# Alternative: Manual setup
+# Create .env file and add:
+# ANTHROPIC_API_KEY=your_key_here
 ```
 
 ### Running the System
@@ -85,12 +87,11 @@ python run_experiments.py --exp 1 2 3
 ```
 
 **Experiments**:
-1. **Baseline Knowledge** (10-15 min) - LLM knowledge without RAG
-2. **Anchored Prompts** (10-15 min) - Strict guideline following
-3. **RAG Comparison** (15-20 min) - RAG vs non-RAG performance
-4. **Long Session Forgetting** (20-30 min) - Memory across long conversations
-5. **Multi-Session Memory** (20-30 min) - Cross-session user profiles
-6. **Adherence RL** (30-60 min) - Reinforcement learning for reminders
+1. **Baseline Knowledge** (10-15 min) - LLM knowledge without compliance prompts
+2. **Anchored Prompts** (10-15 min) - Compliance-aware prompting (CURRENT APPROACH - 76.25% compliant)
+3. **RAG Comparison** (15-20 min) - RAG vs compliance-aware performance (RAG showed 35% degradation)
+4. **Memory Testing** (planned) - Memory persistence with compliance-aware approach
+5. **Model Comparison** (planned) - Claude Opus vs o3 for memory tasks
 
 ---
 
@@ -101,36 +102,29 @@ contraception-support-llm/
 ├── configs/
 │   └── config.yaml                    # Central configuration
 ├── data/
-│   ├── who/                           # WHO FP Handbook PDFs
-│   ├── bcs/                           # BCS+ Toolkit PDFs
-│   ├── synthetic/                     # Synthetic evaluation datasets
-│   ├── processed/vector_store/        # FAISS index (5,460 chunks)
+│   ├── compliance_test_set.json       # Compliance evaluation dataset
 │   ├── memory/                        # Conversation & profile storage
 │   └── collected/                     # Opt-in data collection
 ├── src/
-│   ├── api/main.py                    # FastAPI application (21 endpoints)
-│   ├── rag/                           # RAG pipeline components
-│   │   ├── rag_pipeline.py            # Main orchestrator
-│   │   ├── retriever.py               # FAISS retrieval
-│   │   ├── generator.py               # LLM generation
-│   │   ├── embeddings.py              # Sentence transformers
-│   │   └── vector_store.py            # FAISS wrapper
+│   ├── api/main.py                    # FastAPI application
+│   ├── pipeline/                      # Compliance-aware pipeline
+│   │   ├── compliance_pipeline.py     # Main orchestrator
+│   │   └── generator.py               # LLM generation with compliance prompts
 │   ├── memory/                        # Memory management
 │   │   ├── memory_manager.py          # Orchestrator
-│   │   ├── conversation_memory.py     # Session tracking
-│   │   └── user_profile.py            # User profiles
+│   │   └── conversation_memory.py     # Session tracking
 │   ├── evaluation/                    # Evaluation framework
 │   │   ├── evaluator.py               # SystemEvaluator
-│   │   └── metrics.py                 # BERTScore, hallucination detection
-│   ├── adherence/                     # Adherence support (LinUCB RL)
+│   │   └── metrics.py                 # Compliance scoring
 │   └── utils/
-│       ├── multilang_llm_client.py    # Language-specific routing
+│       ├── multilang_llm_client.py    # Multi-language routing (Claude Opus 4.5)
 │       ├── data_collection.py         # Privacy-preserving collection
 │       └── logger.py                  # Logging setup
-├── experiments/                       # 6 experiment scripts
+├── experiments/                       # Experiment scripts
+├── scripts/                           # Helper scripts
 ├── static/                            # Web UI (HTML/CSS/JS)
 ├── results/                           # Experiment outputs
-├── run_experiments.py                 # Experiment runner
+├── setup_env.py                       # Environment setup script
 ├── requirements.txt                   # Python dependencies
 └── README.md                          # This file
 ```
@@ -156,20 +150,21 @@ contraception-support-llm/
 └────────────────────┬─────────────────────────────────────┘
                      │
 ┌────────────────────▼─────────────────────────────────────┐
-│           RAG Pipeline with Memory                       │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐              │
-│  │Retriever │→ │Generator │→ │  Memory  │→ Response    │
-│  │(FAISS)   │  │(Multilang│  │ Manager  │              │
-│  └──────────┘  └──────────┘  └──────────┘              │
+│      Compliance-Aware Pipeline with Memory               │
+│  ┌──────────────┐  ┌──────────┐                         │
+│  │  Generator   │→ │  Memory  │→ Response               │
+│  │(Compliance-  │  │ Manager  │                         │
+│  │ Aware Prompts│  │          │                         │
+│  └──────────────┘  └──────────┘                         │
 └────────────────────┬─────────────────────────────────────┘
                      │
     ┌────────────────┼────────────────┐
-    ▼                ▼                ▼
-┌─────────┐  ┌──────────────┐  ┌──────────┐
-│ Vector  │  │    Ollama    │  │  Memory  │
-│  Store  │  │    Server    │  │  Storage │
-│ (5.4K)  │  │ llama3.2/aya │  │  (JSON)  │
-└─────────┘  └──────────────┘  └──────────┘
+    ▼                ▼
+┌──────────────┐  ┌──────────┐
+│   Anthropic  │  │  Memory  │
+│   Claude     │  │  Storage │
+│   Opus 4.5   │  │  (JSON)  │
+└──────────────┘  └──────────┘
 ```
 
 See [SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md) for comprehensive architecture documentation.
@@ -178,24 +173,23 @@ See [SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md) for comprehensive architect
 
 ## Key Features
 
-### 1. RAG Pipeline
-- **Vector Store**: 5,460 chunks from WHO FP Handbook 2022 + BCS+ Toolkit
-- **Embeddings**: all-MiniLM-L6-v2 (384 dimensions)
-- **Retrieval**: FAISS with cosine similarity, top-k=5
-- **Generation**: Language-specific model routing
-- **Citations**: Automatic source attribution
+### 1. Compliance-Aware Pipeline
+- **Direct LLM Generation**: No RAG retrieval - uses model's built-in WHO guideline knowledge
+- **Compliance-Aware Prompts**: Experiment 2 system prompts with WHO MEC categories, effectiveness rates
+- **Safety-First**: Explicit uncertainty handling, non-directive counseling language
+- **Results**: 76.25% compliant with 0 critical safety issues (Claude Opus 4.5)
 
 ### 2. Multi-Language Support
-- **English**: llama3.2 (2.0 GB) - Primary, fully supported
-- **French**: llama3.2 - Good performance
-- **Kinyarwanda**: aya:8b (4.8 GB) - Eliminates Swahili mixing
+- **All Languages**: Claude Opus 4.5 - Consistent performance across English, French, Kinyarwanda
+- **Auto-Detection**: Automatic language detection for seamless multilingual support
+- **Cultural Context**: Rwanda-specific policy compliance in all languages
 
-Language-specific routing via [MultiLanguageLLMClient](src/utils/multilang_llm_client.py):
+Language routing via [MultiLanguageLLMClient](src/utils/multilang_llm_client.py):
 ```python
 LANGUAGE_MODELS = {
-    'english': 'llama3.2',
-    'french': 'llama3.2',
-    'kinyarwanda': 'aya:8b'
+    'english': 'claude-opus-4-5-20251101',
+    'french': 'claude-opus-4-5-20251101',
+    'kinyarwanda': 'claude-opus-4-5-20251101'
 }
 ```
 
@@ -213,10 +207,10 @@ LANGUAGE_MODELS = {
 - **Transparent**: Clear consent forms
 
 ### 5. Evaluation Framework
-- **BERTScore**: Semantic similarity (F1, precision, recall)
-- **Hallucination Detection**: Context grounding checks
-- **Citation Accuracy**: Source verification
-- **Safety Fallbacks**: "I don't know" detection
+- **Compliance Scoring**: WHO MEC category adherence, effectiveness rate accuracy
+- **Safety Assessment**: Critical issue detection, non-directive language verification
+- **Hallucination Detection**: Medical accuracy checks
+- **Multi-Model Comparison**: Claude Opus, o3, Grok evaluation
 - **Statistical Tests**: Paired t-tests, confidence intervals
 
 ---
@@ -313,11 +307,9 @@ python run_experiments.py --all
 |-----------|-----------|---------|
 | **Backend** | FastAPI | 0.115.5 |
 | **Server** | Uvicorn | 0.32.1 |
-| **LLM Inference** | Ollama | Latest |
-| **Models** | llama3.2, aya:8b | Latest |
-| **Embeddings** | Sentence Transformers | 3.3.1 |
-| **Vector DB** | FAISS | 1.9.0 |
-| **Evaluation** | BERTScore | 0.3.13 |
+| **LLM** | Anthropic Claude Opus 4.5 | Latest |
+| **API Client** | Anthropic Python SDK | Latest |
+| **Evaluation** | Custom compliance metrics | - |
 | **Stats** | SciPy, Statsmodels | Latest |
 | **Frontend** | Vanilla JS | - |
 | **Logging** | Loguru | 0.7.3 |
@@ -332,19 +324,10 @@ Edit [configs/config.yaml](configs/config.yaml) to customize:
 # Model settings
 models:
   llm:
-    provider: "ollama"
-    model_name: "llama3.2"
-    temperature: 0.1
+    provider: "anthropic"
+    model_name: "claude-opus-4-5-20251101"
+    temperature: 0.7
     max_tokens: 1024
-
-# RAG settings
-rag:
-  retrieval:
-    top_k: 5
-    score_threshold: 0.7
-  chunking:
-    chunk_size: 250
-    chunk_overlap: 50
 
 # Memory settings
 memory:
@@ -361,12 +344,12 @@ memory:
 
 | Document | Description |
 |----------|-------------|
-| [SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md) | Comprehensive system architecture with data flow diagrams |
-| [READY_FOR_EXPERIMENTS.md](READY_FOR_EXPERIMENTS.md) | Complete experiment execution guide |
-| [SYSTEM_READINESS_REPORT.md](SYSTEM_READINESS_REPORT.md) | Pre-experiment system validation |
+| [CHATBOT_UPDATE_SUMMARY.md](CHATBOT_UPDATE_SUMMARY.md) | Compliance-aware approach migration guide |
+| [CLEANUP_PLAN.md](CLEANUP_PLAN.md) | Code cleanup and restructuring plan |
+| [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) | Current implementation status |
+| [QUICK_START.md](QUICK_START.md) | Quick start guide |
 | [DATA_COLLECTION_GUIDE.md](DATA_COLLECTION_GUIDE.md) | Privacy-preserving data collection |
-| [DATA_SOURCES.md](DATA_SOURCES.md) | Data sources and synthetic data justification |
-| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Overall project status |
+| [COMPLIANCE_DATASET_README.md](data/COMPLIANCE_DATASET_README.md) | Compliance test dataset documentation |
 
 ---
 
@@ -412,30 +395,30 @@ pytest tests/integration/
 - **Location**: `results/logs/`
 
 ### Performance
-- **Embedding**: ~0.05s per query
-- **Vector Search**: ~0.01s (5,460 chunks)
-- **LLM Generation**: 2-5s (depends on length)
-- **Total Latency**: 2-6s (end-to-end)
+- **LLM Generation**: 2-3s (Claude Opus 4.5 API)
+- **Total Latency**: 2-3s (end-to-end)
+- **Compliance Rate**: 76.25% (Claude), 85% (o3)
+- **Critical Issues**: 0 (Claude), 0 (o3)
 
 ### Resource Usage
-- **RAM**: ~4-8 GB (depends on model)
-- **Disk**: ~7 GB (models + data)
-- **CPU**: Multi-core recommended
+- **RAM**: ~4 GB (minimal local inference)
+- **Disk**: ~2 GB (data + logs)
+- **Network**: Anthropic API calls (~$0.015 per request)
 
 ---
 
 ## Status & Roadmap
 
 ### Completed
-- Core RAG pipeline with WHO/BCS+ guidelines
-- Multi-language support (EN/FR/RW)
+- Compliance-aware pipeline with WHO/BCS+ prompts
+- Multi-language support (EN/FR/RW) via Claude Opus 4.5
 - Memory management and user profiles
 - Privacy-first data collection
-- Comprehensive evaluation framework
+- Compliance evaluation framework (Experiments 1-3)
 - Web-based chat interface
-- REST API with 21 endpoints
-- Docker containerization
+- REST API with core endpoints
 - Experiment runner with validation
+- Code cleanup and restructuring
 
 ### Future Enhancements
 - Cloud deployment guides (AWS, Azure, GCP)
@@ -459,10 +442,11 @@ This is a **graduate-level capstone project** demonstrating:
 - **Documentation**: Architecture diagrams, data flow, API specs
 
 ### Key Contributions
-1. **RAG for Medical Counseling**: Guideline-grounded responses with source attribution
-2. **Multi-Language Healthcare AI**: Language-specific routing eliminates translation issues
+1. **Compliance-Aware AI for Medical Counseling**: Direct LLM generation with WHO-compliant system prompts (76.25% compliant, 0 critical issues)
+2. **Multi-Language Healthcare AI**: Claude Opus 4.5 for consistent multilingual performance
 3. **Privacy-Preserving Data Collection**: Anonymous, opt-in, GDPR-compliant
-4. **Comprehensive Evaluation**: Beyond accuracy - hallucination, citations, safety
+4. **Comprehensive Safety Evaluation**: Compliance scoring, critical issue detection, medical accuracy assessment
+5. **Empirical Evidence Against RAG**: Demonstrated 35% degradation in compliance when using RAG retrieval
 
 ---
 
@@ -473,12 +457,10 @@ This is a **graduate-level capstone project** demonstrating:
 - **BCS+ Toolkit** - Comprehensive counseling framework
 
 ### Technologies
-- **Ollama** - Local LLM inference
-- **Meta (llama3.2)** - English/French generation
-- **Cohere (Aya)** - Kinyarwanda generation
-- **Sentence Transformers** - Semantic embeddings
-- **FAISS** - Efficient similarity search
+- **Anthropic Claude Opus 4.5** - Primary LLM for all languages
 - **FastAPI** - Modern Python web framework
+- **Loguru** - Structured logging
+- **Pydantic** - Data validation
 
 ---
 
@@ -502,10 +484,11 @@ If you use this system in your research, please cite:
 
 ```bibtex
 @software{ai_contraception_counseling_2025,
-  title={AI Contraception Counseling System: RAG-based Evidence Grounding},
+  title={AI Contraception Counseling System: Compliance-Aware Approach},
   author={[Your Name]},
   year={2025},
-  url={https://github.com/[your-repo]}
+  url={https://github.com/[your-repo]},
+  note={Demonstrates 41% improvement in compliance over RAG-based approaches}
 }
 ```
 
@@ -513,5 +496,5 @@ If you use this system in your research, please cite:
 
 **Built with ❤️ for improving global access to evidence-based contraception counseling**
 
-**Status**: Production Ready
-**Last Updated**: December 1, 2025
+**Status**: Production Ready (Compliance-Aware Approach)
+**Last Updated**: December 9, 2025
