@@ -1,0 +1,10 @@
+Model,Experiment,Avg Score,Fully Compliant (%),Partially Compliant (%),Non-Compliant (%),Critical Issues
+o3,EXP1,1.6875,68.75,31.25,0.0,0
+o3,EXP2,1.6875,71.25,26.25,2.5,3
+o3,EXP3,1.125,22.5,67.5,10.0,6
+claude,EXP1,1.6625,66.25,33.75,0.0,1
+claude,EXP2,1.7625,76.25,23.75,0.0,0
+claude,EXP3,1.075,18.75,70.0,11.25,8
+grok,EXP1,1.6,68.75,22.5,8.75,6
+grok,EXP2,1.5875,58.75,41.25,0.0,0
+grok,EXP3,0.8,2.5,75.0,22.5,14
