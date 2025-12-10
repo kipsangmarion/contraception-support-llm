@@ -1,0 +1,70 @@
+{
+  "exp1_baseline": {
+    "compliance_pct": 66.25,
+    "critical_issues": 1,
+    "avg_score": 1.6625,
+    "avg_latency_s": 8.447999999999997
+  },
+  "exp2_compliance_aware": {
+    "compliance_pct": 76.25,
+    "critical_issues": 0,
+    "avg_score": 1.7625,
+    "avg_latency_s": 10.22825,
+    "improvement_vs_exp1": {
+      "compliance_delta": 10.0,
+      "critical_issues_delta": 1,
+      "score_delta": 0.09999999999999987
+    }
+  },
+  "exp3_rag": {
+    "compliance_pct": 18.75,
+    "critical_issues": 8,
+    "avg_score": 1.075,
+    "avg_latency_s": 8.716999999999995,
+    "degradation_vs_exp2": {
+      "compliance_delta": -57.5,
+      "latency_delta_s": -1.511250000000004
+    }
+  },
+  "exp4_safety_validation": {
+    "compliance_pct": 67.5,
+    "critical_issues": 0,
+    "avg_score": 1.6625,
+    "avg_latency_s": 11.593107208609581,
+    "improvement_vs_exp2": {
+      "compliance_delta": -8.75,
+      "critical_issues_delta": 0,
+      "score_delta": -0.09999999999999987
+    }
+  },
+  "best_approach": {
+    "highest_compliance": {
+      "name": "Experiment 2: Compliance-Aware Prompting",
+      "compliance_pct": 76.25,
+      "critical_issues": 0,
+      "avg_score": 1.7625,
+      "avg_latency_s": 10.22825
+    },
+    "safest": {
+      "name": "Experiment 2: Compliance-Aware Prompting",
+      "compliance_pct": 76.25,
+      "critical_issues": 0,
+      "avg_score": 1.7625,
+      "avg_latency_s": 10.22825
+    },
+    "fastest": {
+      "name": "Experiment 1: Baseline",
+      "compliance_pct": 66.25,
+      "critical_issues": 1,
+      "avg_score": 1.6625,
+      "avg_latency_s": 8.447999999999997
+    },
+    "recommended": {
+      "name": "Experiment 2: Compliance-Aware Prompting",
+      "compliance_pct": 76.25,
+      "critical_issues": 0,
+      "avg_score": 1.7625,
+      "avg_latency_s": 10.22825
+    }
+  }
+}
