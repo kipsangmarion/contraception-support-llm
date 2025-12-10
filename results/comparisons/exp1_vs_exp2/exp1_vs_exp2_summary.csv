@@ -1,0 +1,4 @@
+Model,Exp1 Score,Exp2 Score,Change,Exp1 Critical,Exp2 Critical,Critical Change
+claude-opus-4-5-20251101,1.66,1.76,+0.10,1,0,-1
+grok-4-1-fast-reasoning,1.60,1.59,-0.01,6,0,-6
+o3-2025-04-16,1.69,1.69,+0.00,0,3,3
