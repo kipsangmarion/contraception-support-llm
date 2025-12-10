@@ -1,62 +1,13 @@
-# Main Configuration File for AI Contraception Counseling System
-
-# Random Seeds for Reproducibility
-random_seeds:
-  python: 42
-  numpy: 42
-  torch: 42  # If using PyTorch
+# Contraception Counseling System Configuration
+# Based on Experiment 2 (Compliance-Aware Prompting) - 76.25% compliant, 0 critical issues
 
 # Model Configuration
 models:
   llm:
-    provider: "ollama"  # Options: "openai", "anthropic", "ollama", "groq"
-    model_name: "llama3.2"  # Ollama: "llama3.2", "mistral", "phi3" | OpenAI: "gpt-4o-mini" | Groq: "llama-3.1-8b-instant"
-    base_url: "http://localhost:11434"  # For Ollama (local server)
-    temperature: 0.1
+    provider: "anthropic"
+    model_name: "claude-opus-4-5-20251101"
+    temperature: 0.7
     max_tokens: 1024
-    top_p: 0.95
-
-  embeddings:
-    provider: "sentence-transformers"  # Options: "sentence-transformers", "openai"
-    model_name: "all-MiniLM-L6-v2"  # or "text-embedding-3-small"
-    dimension: 384  # 384 for MiniLM, 1536 for OpenAI text-embedding-3-small
-
-# RAG Configuration
-rag:
-  relevance_threshold: 0.3  # Minimum similarity score (0-1)
-  max_conversation_history: 10  # Max turns to keep in memory
-
-  chunking:
-    method: "paragraph"  # Options: "fixed", "paragraph", "semantic"
-    chunk_size: 250  # characters
-    chunk_overlap: 50
-    min_chunk_size: 150
-    max_chunk_size: 300
-
-  retrieval:
-    top_k: 5
-    similarity_metric: "cosine"  # Options: "cosine", "l2", "inner_product"
-    score_threshold: 0.7  # Minimum similarity score to include
-    rerank: false  # Set to true if implementing reranking
-
-  generation:
-    include_citations: true
-    max_context_length: 2048
-    safety_fallback_enabled: true
-
-# Prompts
-prompts:
-  system_prompt: |
-    You are a knowledgeable contraception counselor trained on WHO Family Planning Handbook 2022 and BCS+ Toolkit.
-    Always base your responses on the provided guidelines. If you're unsure or the information isn't in the guidelines,
-    say "I don't have enough information in the guidelines to answer that. Please consult a healthcare provider."
-    Be empathetic, non-judgmental, and culturally sensitive.
-
-  anchored_prompt: |
-    STRICT INSTRUCTION: You MUST only provide information that is directly supported by the retrieved guidelines.
-    Do NOT make assumptions or provide information from general knowledge.
-    If the guidelines don't cover a topic, explicitly state that and recommend consulting a healthcare provider.
-    Always cite the source of your information.
 
 # Memory Configuration
 memory:
@@ -64,82 +15,17 @@ memory:
   max_history_turns: 20
   summarization:
     enabled: true
-    trigger_length: 10  # Summarize after this many turns
-    max_summary_tokens: 256
+    trigger_length: 10
 
-  multi_session:
-    storage: "json"  # Options: "json", "sqlite", "redis"
-    storage_path: "data/memory/sessions.json"
+# Data Collection (Privacy-First)
+data_collection:
+  enabled: false  # Opt-in only
+  anonymous: true
+  storage_path: "data/collected"
 
-# Adherence RL Configuration
-adherence:
-  algorithm: "linucb"
-  linucb:
-    alpha: 1.0  # Exploration parameter
-    context_dim: 10
-    n_actions: 6  # Different reminder timings/channels
-
-  simulation:
-    n_samples: 1000
-    response_patterns:
-      compliant_prob: 0.7
-      inconsistent_prob: 0.2
-      non_responsive_prob: 0.1
-
-  reward:
-    success: 1.0
-    partial: 0.5
-    failure: 0.0
-
-# Evaluation Configuration
-evaluation:
-  n_questions: 100
-  metrics:
-    - accuracy
-    - hallucination_rate
-    - latency
-    - safety_fallback_rate
-    - citation_accuracy
-
-  error_analysis:
-    categories:
-      - hallucination
-      - factual_error
-      - unsafe
-      - vague
-      - correct
-
-  statistical_tests:
-    significance_level: 0.05
-    bootstrap_iterations: 1000
-
-# Data Paths
-data:
-  who_dir: "data/who/"
-  bcs_dir: "data/bcs/"
-  synthetic_dir: "data/synthetic/"
-  processed_dir: "data/processed/"
-
-paths:
-  data:
-    who: "data/who/"
-    bcs: "data/bcs/"
-    synthetic: "data/synthetic/"
-    processed: "data/processed/"
-
-  index:
-    faiss: "data/processed/faiss.index"
-    chunks: "data/processed/chunks.json"
-    metadata: "data/processed/metadata.json"
-
-  results:
-    tables: "results/tables/"
-    plots: "results/plots/"
-    logs: "results/logs/"
-
-# Logging Configuration
+# Logging
 logging:
-  level: "INFO"  # Options: "DEBUG", "INFO", "WARNING", "ERROR"
+  level: "INFO"
   format: "{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {name}:{function}:{line} - {message}"
   file: "results/logs/app.log"
   rotation: "100 MB"
@@ -149,83 +35,17 @@ logging:
 api:
   host: "0.0.0.0"
   port: 8000
-  reload: true  # Development mode
-  cors_enabled: true
-  rate_limit:
-    enabled: false  # Set to true in production
+  cors_origins:
+    - "*"  # Configure for production
+  rate_limiting:
+    enabled: false
     requests_per_minute: 60
 
-# Experiment Configuration
-experiments:
-  exp1_baseline:
-    enabled: true
-    n_samples: 100
-
-  exp2_anchored:
-    enabled: true
-    n_samples: 100
-
-  exp3_rag_comparison:
-    enabled: true
-    n_samples: 100
-
-  exp4a_long_session:
-    enabled: true
-    n_conversations: 20
-    turns_per_conversation: 30
-
-  exp4b_multi_session:
-    enabled: true
-    n_sessions: 50
-
-  exp5_adherence_rl:
-    enabled: true
-    n_simulations: 1000
-    n_episodes: 100
-
-# Dataset Generation
-synthetic_data:
-  user_profiles:
-    n_profiles: 500
-    age_groups:
-      - "15-19"
-      - "20-24"
-      - "25-29"
-      - "30-34"
-      - "35-39"
-      - "40-49"
-
-    concerns:
-      - "fertility"
-      - "bleeding_changes"
-      - "privacy"
-      - "partner_concerns"
-      - "side_effects"
-      - "effectiveness"
-
-    languages:
-      - "english"
-      - "french"
-      - "kinyarwanda"
-
-  adherence_dataset:
-    n_samples: 1000
-    methods:
-      - "DMPA"
-      - "pill"
-      - "implant"
-      - "IUD"
-
-    channels:
-      - "sms"
-      - "whatsapp"
-      - "phone_call"
-      - "app_notification"
-
-# Performance
-performance:
-  batch_size: 32
-  cache_enabled: true
-  cache_ttl: 3600  # seconds
-  parallel_processing: true
-  n_workers: 4
+# Evaluation
+evaluation:
+  compliance_threshold: 0.75
+  critical_issue_tolerance: 0
+  metrics:
+    - "compliance_score"
+    - "safety_assessment"
+    - "latency"
