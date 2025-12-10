@@ -1,0 +1,17 @@
+{
+  "model": "gemini-2.5-pro",
+  "experiment": 1,
+  "total_responses": 1,
+  "fully_compliant": 0,
+  "partially_compliant": 0,
+  "non_compliant": 1,
+  "critical_issues": 1,
+  "avg_compliance_score": 0.0,
+  "avg_latency": 10.91,
+  "by_category": {
+    "Timing Guidelines": 0.0
+  },
+  "by_severity": {
+    "critical": 0.0
+  }
+}

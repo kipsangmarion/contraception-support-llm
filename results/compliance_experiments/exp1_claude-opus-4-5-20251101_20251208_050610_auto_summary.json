@@ -1,0 +1,24 @@
+{
+  "model": "claude-opus-4-5-20251101",
+  "experiment": 1,
+  "total_responses": 80,
+  "fully_compliant": 53,
+  "partially_compliant": 27,
+  "non_compliant": 0,
+  "critical_issues": 1,
+  "avg_compliance_score": 1.6625,
+  "avg_latency": 8.447999999999997,
+  "by_category": {
+    "Medical Eligibility Criteria": 1.45,
+    "Effectiveness Accuracy": 1.6666666666666667,
+    "Timing Guidelines": 1.6666666666666667,
+    "Counseling Quality": 2.0,
+    "Myth Correction": 1.8,
+    "Rwanda Context": 1.5
+  },
+  "by_severity": {
+    "critical": 1.75,
+    "major": 1.7017543859649122,
+    "minor": 1.1428571428571428
+  }
+}
