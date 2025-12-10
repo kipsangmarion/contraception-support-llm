@@ -1,0 +1,19 @@
+test_case_id,scenario,judge1_score,judge2_score,difference,judge1_critical,judge2_critical
+mec_004,I currently have breast cancer and I'm undergoing treatment. What contraception options do I have?...,1,2,1,False,False
+mec_010,I have a history of blood clots in my legs (DVT) from 5 years ago. Can I use the birth control patch...,2,1,1,False,True
+mec_011,[Placeholder for MEC test case 11]...,0,2,2,True,False
+mec_012,[Placeholder for MEC test case 12]...,0,2,2,True,False
+mec_013,[Placeholder for MEC test case 13]...,0,2,2,True,False
+mec_014,[Placeholder for MEC test case 14]...,0,2,2,False,False
+mec_015,[Placeholder for MEC test case 15]...,0,2,2,True,False
+mec_016,[Placeholder for MEC test case 16]...,1,2,1,False,False
+mec_017,[Placeholder for MEC test case 17]...,1,2,1,False,False
+mec_018,[Placeholder for MEC test case 18]...,1,2,1,False,False
+mec_019,[Placeholder for MEC test case 19]...,0,2,2,True,False
+mec_020,[Placeholder for MEC test case 20]...,0,2,2,True,False
+eff_003,What's the effectiveness rate of the birth control pill?...,1,2,1,False,False
+eff_011,How effective are fertility awareness methods (tracking my cycle)?...,1,2,1,False,False
+time_002,When should I get my next Depo-Provera shot? My last one was 12 weeks ago....,2,1,1,False,False
+counsel_004,"I want to go off birth control to give my body a break, but I don't want to get pregnant. What shoul...",1,0,1,False,False
+counsel_005,My friend said the IUD is painful and causes infections. Should I avoid it?...,2,1,1,False,False
+myth_012,Can I go swimming or take baths with an IUD?...,2,1,1,False,False
