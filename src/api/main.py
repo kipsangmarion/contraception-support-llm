@@ -1,5 +1,11 @@
 """
-FastAPI Application for Contraception Counseling RAG System
+FastAPI Application for Contraception Counseling System
+
+Uses Compliance-Aware Prompting (Experiment 2 approach) for optimal safety and accuracy.
+
+Based on experimental results:
+- Claude Opus 4.5 + Compliance Prompting: 76.25% compliant, 0 critical issues
+- RAG approach showed 35% degradation in compliance
 
 Provides REST API endpoints for:
 - Query processing
@@ -19,7 +25,7 @@ import uuid
 from loguru import logger
 from pathlib import Path
 
-from src.rag.rag_pipeline import RAGPipeline, RAGPipelineWithMemory
+from src.pipeline.compliance_pipeline import CompliancePipeline, CompliancePipelineWithMemory
 from src.utils.data_collection import DataCollector
 from src.utils.logger import setup_logger
 
@@ -29,8 +35,8 @@ setup_logger()
 # Create FastAPI app
 app = FastAPI(
     title="Contraception Counseling API",
-    description="RAG-based contraception counseling system with multi-language support",
-    version="1.0.0",
+    description="Compliance-aware contraception counseling system (Exp2 approach) with multi-language support. Uses Claude Opus 4.5 for optimal safety and accuracy.",
+    version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -53,7 +59,7 @@ else:
     logger.warning(f"Static directory not found: {static_dir}")
 
 # Global pipeline instance
-pipeline: Optional[RAGPipeline] = None
+pipeline: Optional[CompliancePipeline] = None
 data_collector: Optional[DataCollector] = None
 
 
@@ -152,19 +158,19 @@ class StatsResponse(BaseModel):
 # Startup/Shutdown Events
 @app.on_event("startup")
 async def startup_event():
-    """Initialize RAG pipeline on startup."""
+    """Initialize compliance-aware pipeline on startup."""
     global pipeline, data_collector
 
     logger.info("Starting up Contraception Counseling API...")
 
     try:
-        # Initialize RAG pipeline
-        pipeline = RAGPipelineWithMemory(
+        # Initialize Compliance Pipeline (Experiment 2 approach)
+        # Uses Claude Opus 4.5 + compliance-aware prompting (no RAG retrieval)
+        pipeline = CompliancePipelineWithMemory(
             config_path="configs/config.yaml",
-            use_hybrid_retrieval=False,
             use_multilingual=True
         )
-        logger.info("✓ RAG Pipeline initialized")
+        logger.info("✓ Compliance Pipeline initialized (Experiment 2 approach)")
 
         # Initialize data collector (disabled by default)
         data_collector = DataCollector(

@@ -185,6 +185,43 @@ class MemoryManager:
         self.user_profiles.update_preferences(user_id, preferences)
         logger.info(f"Updated preferences for user {user_id}")
 
+    def update_user_profile(
+        self,
+        user_id: str,
+        interaction_data: Dict[str, Any]
+    ):
+        """
+        Update user profile based on interaction.
+
+        Args:
+            user_id: User identifier
+            interaction_data: Data from the interaction (query, language, etc.)
+        """
+        # Update language preference if provided
+        if 'language' in interaction_data:
+            self.user_profiles.update_preferences(
+                user_id,
+                {'language': interaction_data['language']}
+            )
+
+        # Extract interests from query if provided
+        if 'query' in interaction_data:
+            self._extract_and_update_interests(user_id, interaction_data['query'])
+
+        logger.debug(f"Updated profile for user {user_id}")
+
+    def get_user_profile(self, user_id: str) -> Dict:
+        """
+        Get user profile.
+
+        Args:
+            user_id: User identifier
+
+        Returns:
+            User profile data
+        """
+        return self.user_profiles.get_profile(user_id)
+
     def clear_session(self, session_id: str):
         """
         Clear conversation history for session.

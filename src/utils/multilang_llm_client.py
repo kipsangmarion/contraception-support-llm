@@ -2,27 +2,31 @@
 Multi-Language LLM Client with Language-Specific Model Routing
 
 Routes queries to appropriate models based on language:
-- English: llama3.2 (default, best performance)
-- French: llama3.2 (good performance)
-- Kinyarwanda: aya:8b (trained on African languages)
+- All languages: Claude Opus 4.5 (based on Experiment 2 results)
+  - English: 76.25% compliant, 0 critical issues
+  - Multilingual support for French and Kinyarwanda
 
-This eliminates the Swahili mixing issue in Kinyarwanda responses.
+Uses Anthropic API for all language routing.
 """
 
 import os
-import requests
 from typing import Dict, List, Optional
 from loguru import logger
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 class MultiLanguageLLMClient:
     """LLM client that routes to language-specific models."""
 
     # Language-to-model mapping
+    # Updated to use Claude Opus 4.5 for all languages (Experiment 2 winner)
     LANGUAGE_MODELS = {
-        'english': 'llama3.2',
-        'french': 'llama3.2',
-        'kinyarwanda': 'aya:8b'
+        'english': 'claude-opus-4-5-20251101',
+        'french': 'claude-opus-4-5-20251101',
+        'kinyarwanda': 'claude-opus-4-5-20251101'
     }
 
     def __init__(self, config: Dict):
@@ -40,20 +44,30 @@ class MultiLanguageLLMClient:
         else:
             raise ValueError("Invalid config format")
 
-        self.provider = llm_config.get('provider', 'ollama')
-        self.default_model = llm_config.get('model_name', 'llama3.2')
-        self.temperature = llm_config.get('temperature', 0.1)
+        self.provider = llm_config.get('provider', 'anthropic')
+        self.default_model = llm_config.get('model_name', 'claude-opus-4-5-20251101')
+        self.temperature = llm_config.get('temperature', 0.7)
         self.max_tokens = llm_config.get('max_tokens', 1024)
-        self.base_url = llm_config.get('base_url', 'http://localhost:11434')
+
+        # Initialize Anthropic client
+        try:
+            import anthropic
+            api_key = os.getenv('ANTHROPIC_API_KEY')
+            if not api_key:
+                raise ValueError(
+                    "ANTHROPIC_API_KEY not found in environment variables. "
+                    "Please set it in your .env file or run: python setup_env.py"
+                )
+            self.anthropic_client = anthropic.Anthropic(api_key=api_key)
+            logger.info("Initialized Anthropic client for Claude Opus 4.5")
+        except ImportError:
+            raise ImportError(
+                "anthropic package not installed. "
+                "Please run: pip install anthropic"
+            )
 
         logger.info(f"Multi-language LLM client initialized with provider: {self.provider}")
         logger.info(f"Language routing: {self.LANGUAGE_MODELS}")
-
-        if self.provider != 'ollama':
-            logger.warning(
-                "Multi-language routing currently only supports Ollama. "
-                f"Using default model for all languages: {self.default_model}"
-            )
 
     def _get_model_for_language(self, language: str) -> str:
         """
@@ -97,21 +111,11 @@ class MultiLanguageLLMClient:
         # Get language-specific model
         model = self._get_model_for_language(language)
 
-        if self.provider == "ollama":
-            return self._generate_ollama(
-                prompt, system_prompt, temp, max_tok, model
-            )
-        else:
-            # Fallback for other providers (use default model)
-            logger.warning(
-                f"Language routing not available for {self.provider}, "
-                f"using default model: {self.default_model}"
-            )
-            return self._generate_ollama(
-                prompt, system_prompt, temp, max_tok, self.default_model
-            )
+        return self._generate_anthropic(
+            prompt, system_prompt, temp, max_tok, model
+        )
 
-    def _generate_ollama(
+    def _generate_anthropic(
         self,
         prompt: str,
         system_prompt: Optional[str],
@@ -119,38 +123,25 @@ class MultiLanguageLLMClient:
         max_tokens: int,
         model: str
     ) -> str:
-        """Generate using Ollama local API with specified model."""
-        url = f"{self.base_url}/api/generate"
-
-        # Combine system prompt and user prompt
-        full_prompt = prompt
-        if system_prompt:
-            full_prompt = f"{system_prompt}\n\n{prompt}"
-
-        payload = {
-            "model": model,
-            "prompt": full_prompt,
-            "temperature": temperature,
-            "options": {
-                "num_predict": max_tokens
-            },
-            "stream": False
-        }
-
+        """Generate using Anthropic Claude API."""
         try:
             logger.info(f"Generating with model: {model}")
-            response = requests.post(url, json=payload, timeout=120)
-            response.raise_for_status()
-            result = response.json()
-            return result.get('response', '')
 
-        except requests.exceptions.ConnectionError:
-            raise ConnectionError(
-                f"Cannot connect to Ollama at {self.base_url}. "
-                f"Make sure Ollama is running and model '{model}' is downloaded."
+            # Claude uses messages API
+            messages = [{"role": "user", "content": prompt}]
+
+            response = self.anthropic_client.messages.create(
+                model=model,
+                max_tokens=max_tokens,
+                temperature=temperature,
+                system=system_prompt if system_prompt else "",
+                messages=messages
             )
+
+            return response.content[0].text
+
         except Exception as e:
-            logger.error(f"Ollama generation error with model {model}: {e}")
+            logger.error(f"Anthropic generation error with model {model}: {e}")
             raise
 
     def chat(
@@ -178,36 +169,21 @@ class MultiLanguageLLMClient:
         # Get language-specific model
         model = self._get_model_for_language(language)
 
-        if self.provider == "ollama":
-            url = f"{self.base_url}/api/chat"
+        try:
+            logger.info(f"Chat with model: {model} (language: {language})")
 
-            payload = {
-                "model": model,
-                "messages": messages,
-                "temperature": temp,
-                "options": {
-                    "num_predict": max_tok
-                },
-                "stream": False
-            }
+            response = self.anthropic_client.messages.create(
+                model=model,
+                max_tokens=max_tok,
+                temperature=temp,
+                messages=messages
+            )
 
-            try:
-                logger.info(f"Chat with model: {model} (language: {language})")
-                response = requests.post(url, json=payload, timeout=120)
-                response.raise_for_status()
-                result = response.json()
-                return result.get('message', {}).get('content', '')
+            return response.content[0].text
 
-            except requests.exceptions.ConnectionError:
-                raise ConnectionError(
-                    f"Cannot connect to Ollama at {self.base_url}. "
-                    f"Make sure Ollama is running and model '{model}' is downloaded."
-                )
-            except Exception as e:
-                logger.error(f"Chat error with model {model}: {e}")
-                raise
-        else:
-            raise ValueError(f"Chat not implemented for provider: {self.provider}")
+        except Exception as e:
+            logger.error(f"Chat error with model {model}: {e}")
+            raise
 
 
 def test_multilang_llm(config: Dict) -> bool:
@@ -227,17 +203,17 @@ def test_multilang_llm(config: Dict) -> bool:
             {
                 'language': 'english',
                 'prompt': 'Say hello in one word.',
-                'expected_model': 'llama3.2'
+                'expected_model': 'claude-opus-4-5-20251101'
             },
             {
                 'language': 'french',
                 'prompt': 'Dis bonjour en un mot.',
-                'expected_model': 'llama3.2'
+                'expected_model': 'claude-opus-4-5-20251101'
             },
             {
                 'language': 'kinyarwanda',
                 'prompt': 'Vuga mwaramutse mu jambo rimwe.',
-                'expected_model': 'aya:8b'
+                'expected_model': 'claude-opus-4-5-20251101'
             }
         ]
 
