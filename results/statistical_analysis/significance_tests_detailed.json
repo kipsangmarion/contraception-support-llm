@@ -1,0 +1,578 @@
+[
+  {
+    "comparison": "Baseline vs Compliance-Aware",
+    "exp1": 1,
+    "exp2": 2,
+    "model": "grok-4-1-fast-reasoning",
+    "mcnemar": {
+      "test": "mcnemar",
+      "statistic": 2.0416666666666665,
+      "p_value": 0.15304188415881603,
+      "significant": "False",
+      "n_cases": 80,
+      "contingency_table": {
+        "both_correct": 39,
+        "exp1_only_correct": 16,
+        "exp2_only_correct": 8,
+        "both_wrong": 17
+      },
+      "interpretation": "Not significant difference (p=0.1530)"
+    },
+    "chi_square": {
+      "test": "chi_square",
+      "statistic": 1.3252197430696417,
+      "p_value": 0.24965741416101206,
+      "dof": 1,
+      "significant": "False",
+      "contingency_table": [
+        [
+          55,
+          25
+        ],
+        [
+          47,
+          33
+        ]
+      ],
+      "interpretation": "Not significant association (p=0.2497)"
+    },
+    "effect_size": {
+      "cohens_h": 0.20849100633192275,
+      "magnitude": "small",
+      "exp1_success_rate": 0.6875,
+      "exp2_success_rate": 0.5875,
+      "difference": -0.09999999999999998,
+      "ci_95_lower": -0.2481693077192439,
+      "ci_95_upper": 0.04816930771924394,
+      "interpretation": "Effect size: small (h=0.208), 10.0% degradation"
+    }
+  },
+  {
+    "comparison": "Baseline vs Compliance-Aware",
+    "exp1": 1,
+    "exp2": 2,
+    "model": "claude-opus-4-5-20251101",
+    "mcnemar": {
+      "test": "mcnemar",
+      "statistic": 2.227272727272727,
+      "p_value": 0.13559300126630158,
+      "significant": "False",
+      "n_cases": 80,
+      "contingency_table": {
+        "both_correct": 46,
+        "exp1_only_correct": 7,
+        "exp2_only_correct": 15,
+        "both_wrong": 12
+      },
+      "interpretation": "Not significant difference (p=0.1356)"
+    },
+    "chi_square": {
+      "test": "chi_square",
+      "statistic": 1.4950419527078567,
+      "p_value": 0.22143581728635472,
+      "dof": 1,
+      "significant": "False",
+      "contingency_table": [
+        [
+          53,
+          27
+        ],
+        [
+          61,
+          19
+        ]
+      ],
+      "interpretation": "Not significant association (p=0.2214)"
+    },
+    "effect_size": {
+      "cohens_h": -0.22170338500748876,
+      "magnitude": "small",
+      "exp1_success_rate": 0.6625,
+      "exp2_success_rate": 0.7625,
+      "difference": 0.09999999999999998,
+      "ci_95_lower": -0.039402631790077774,
+      "ci_95_upper": 0.23940263179007773,
+      "interpretation": "Effect size: small (h=-0.222), 10.0% improvement"
+    }
+  },
+  {
+    "comparison": "Baseline vs Compliance-Aware",
+    "exp1": 1,
+    "exp2": 2,
+    "model": "o3-2025-04-16",
+    "mcnemar": {
+      "test": "mcnemar",
+      "statistic": 0.045454545454545456,
+      "p_value": 0.8311704095417624,
+      "significant": "False",
+      "n_cases": 80,
+      "contingency_table": {
+        "both_correct": 45,
+        "exp1_only_correct": 10,
+        "exp2_only_correct": 12,
+        "both_wrong": 13
+      },
+      "interpretation": "Not significant difference (p=0.8312)"
+    },
+    "chi_square": {
+      "test": "chi_square",
+      "statistic": 0.02976190476190476,
+      "p_value": 0.8630315773055416,
+      "dof": 1,
+      "significant": "False",
+      "contingency_table": [
+        [
+          55,
+          25
+        ],
+        [
+          57,
+          23
+        ]
+      ],
+      "interpretation": "Not significant association (p=0.8630)"
+    },
+    "effect_size": {
+      "cohens_h": -0.05456511111412188,
+      "magnitude": "negligible",
+      "exp1_success_rate": 0.6875,
+      "exp2_success_rate": 0.7125,
+      "difference": 0.025000000000000022,
+      "ci_95_lower": -0.1169626491370177,
+      "ci_95_upper": 0.16696264913701775,
+      "interpretation": "Effect size: negligible (h=-0.055), 2.5% improvement"
+    }
+  },
+  {
+    "comparison": "Baseline vs RAG",
+    "exp1": 1,
+    "exp2": 3,
+    "model": "grok-4-1-fast-reasoning",
+    "mcnemar": {
+      "test": "mcnemar",
+      "statistic": 51.0188679245283,
+      "p_value": 9.14823772291129e-13,
+      "significant": "True",
+      "n_cases": 80,
+      "contingency_table": {
+        "both_correct": 2,
+        "exp1_only_correct": 53,
+        "exp2_only_correct": 0,
+        "both_wrong": 25
+      },
+      "interpretation": "Significant difference (p=0.0000)"
+    },
+    "chi_square": {
+      "test": "chi_square",
+      "statistic": 73.69102367569408,
+      "p_value": 9.135336551054197e-18,
+      "dof": 1,
+      "significant": "True",
+      "contingency_table": [
+        [
+          55,
+          25
+        ],
+        [
+          2,
+          78
+        ]
+      ],
+      "interpretation": "Significant association (p=0.0000)"
+    },
+    "effect_size": {
+      "cohens_h": 1.6376326719990142,
+      "magnitude": "large",
+      "exp1_success_rate": 0.6875,
+      "exp2_success_rate": 0.025,
+      "difference": -0.6625,
+      "ci_95_lower": -0.769678749642828,
+      "ci_95_upper": -0.555321250357172,
+      "interpretation": "Effect size: large (h=1.638), 66.2% degradation"
+    }
+  },
+  {
+    "comparison": "Baseline vs RAG",
+    "exp1": 1,
+    "exp2": 3,
+    "model": "claude-opus-4-5-20251101",
+    "mcnemar": {
+      "test": "mcnemar",
+      "statistic": 32.595238095238095,
+      "p_value": 1.1349247430736398e-08,
+      "significant": "True",
+      "n_cases": 80,
+      "contingency_table": {
+        "both_correct": 13,
+        "exp1_only_correct": 40,
+        "exp2_only_correct": 2,
+        "both_wrong": 25
+      },
+      "interpretation": "Significant difference (p=0.0000)"
+    },
+    "chi_square": {
+      "test": "chi_square",
+      "statistic": 35.012787723785166,
+      "p_value": 3.2754714241307143e-09,
+      "dof": 1,
+      "significant": "True",
+      "contingency_table": [
+        [
+          53,
+          27
+        ],
+        [
+          15,
+          65
+        ]
+      ],
+      "interpretation": "Significant association (p=0.0000)"
+    },
+    "effect_size": {
+      "cohens_h": 1.0061432610263261,
+      "magnitude": "large",
+      "exp1_success_rate": 0.6625,
+      "exp2_success_rate": 0.1875,
+      "difference": -0.475,
+      "ci_95_lower": -0.6093596619153234,
+      "ci_95_upper": -0.3406403380846766,
+      "interpretation": "Effect size: large (h=1.006), 47.5% degradation"
+    }
+  },
+  {
+    "comparison": "Baseline vs RAG",
+    "exp1": 1,
+    "exp2": 3,
+    "model": "o3-2025-04-16",
+    "mcnemar": {
+      "test": "mcnemar",
+      "statistic": 26.448979591836736,
+      "p_value": 2.7059138196783294e-07,
+      "significant": "True",
+      "n_cases": 80,
+      "contingency_table": {
+        "both_correct": 12,
+        "exp1_only_correct": 43,
+        "exp2_only_correct": 6,
+        "both_wrong": 19
+      },
+      "interpretation": "Significant difference (p=0.0000)"
+    },
+    "chi_square": {
+      "test": "chi_square",
+      "statistic": 32.649976381672175,
+      "p_value": 1.103407573464938e-08,
+      "dof": 1,
+      "significant": "True",
+      "contingency_table": [
+        [
+          55,
+          25
+        ],
+        [
+          18,
+          62
+        ]
+      ],
+      "interpretation": "Significant association (p=0.0000)"
+    },
+    "effect_size": {
+      "cohens_h": 0.9667610123643825,
+      "magnitude": "large",
+      "exp1_success_rate": 0.6875,
+      "exp2_success_rate": 0.225,
+      "difference": -0.4625,
+      "ci_95_lower": -0.599212414853224,
+      "ci_95_upper": -0.3257875851467761,
+      "interpretation": "Effect size: large (h=0.967), 46.2% degradation"
+    }
+  },
+  {
+    "comparison": "Compliance-Aware vs RAG",
+    "exp1": 2,
+    "exp2": 3,
+    "model": "grok-4-1-fast-reasoning",
+    "mcnemar": {
+      "test": "mcnemar",
+      "statistic": 43.022222222222226,
+      "p_value": 5.412159609363698e-11,
+      "significant": "True",
+      "n_cases": 80,
+      "contingency_table": {
+        "both_correct": 2,
+        "exp1_only_correct": 45,
+        "exp2_only_correct": 0,
+        "both_wrong": 33
+      },
+      "interpretation": "Significant difference (p=0.0000)"
+    },
+    "chi_square": {
+      "test": "chi_square",
+      "statistic": 56.95164552307409,
+      "p_value": 4.4666040281534846e-14,
+      "dof": 1,
+      "significant": "True",
+      "contingency_table": [
+        [
+          47,
+          33
+        ],
+        [
+          2,
+          78
+        ]
+      ],
+      "interpretation": "Significant association (p=0.0000)"
+    },
+    "effect_size": {
+      "cohens_h": 1.4291416656670917,
+      "magnitude": "large",
+      "exp1_success_rate": 0.5875,
+      "exp2_success_rate": 0.025,
+      "difference": -0.5625,
+      "ci_95_lower": -0.6756717030666235,
+      "ci_95_upper": -0.4493282969333765,
+      "interpretation": "Effect size: large (h=1.429), 56.2% degradation"
+    }
+  },
+  {
+    "comparison": "Compliance-Aware vs RAG",
+    "exp1": 2,
+    "exp2": 3,
+    "model": "claude-opus-4-5-20251101",
+    "mcnemar": {
+      "test": "mcnemar",
+      "statistic": 42.1875,
+      "p_value": 8.292844189128346e-11,
+      "significant": "True",
+      "n_cases": 80,
+      "contingency_table": {
+        "both_correct": 14,
+        "exp1_only_correct": 47,
+        "exp2_only_correct": 1,
+        "both_wrong": 18
+      },
+      "interpretation": "Significant difference (p=0.0000)"
+    },
+    "chi_square": {
+      "test": "chi_square",
+      "statistic": 50.75187969924812,
+      "p_value": 1.0481214147853237e-12,
+      "dof": 1,
+      "significant": "True",
+      "contingency_table": [
+        [
+          61,
+          19
+        ],
+        [
+          15,
+          65
+        ]
+      ],
+      "interpretation": "Significant association (p=0.0000)"
+    },
+    "effect_size": {
+      "cohens_h": 1.2278466460338149,
+      "magnitude": "large",
+      "exp1_success_rate": 0.7625,
+      "exp2_success_rate": 0.1875,
+      "difference": -0.575,
+      "ci_95_lower": -0.7015372227844439,
+      "ci_95_upper": -0.44846277721555605,
+      "interpretation": "Effect size: large (h=1.228), 57.5% degradation"
+    }
+  },
+  {
+    "comparison": "Compliance-Aware vs RAG",
+    "exp1": 2,
+    "exp2": 3,
+    "model": "o3-2025-04-16",
+    "mcnemar": {
+      "test": "mcnemar",
+      "statistic": 29.46938775510204,
+      "p_value": 5.680691061993315e-08,
+      "significant": "True",
+      "n_cases": 80,
+      "contingency_table": {
+        "both_correct": 13,
+        "exp1_only_correct": 44,
+        "exp2_only_correct": 5,
+        "both_wrong": 18
+      },
+      "interpretation": "Significant difference (p=0.0000)"
+    },
+    "chi_square": {
+      "test": "chi_square",
+      "statistic": 36.24156862745098,
+      "p_value": 1.7431251300488624e-09,
+      "dof": 1,
+      "significant": "True",
+      "contingency_table": [
+        [
+          57,
+          23
+        ],
+        [
+          18,
+          62
+        ]
+      ],
+      "interpretation": "Significant association (p=0.0000)"
+    },
+    "effect_size": {
+      "cohens_h": 1.0213261234785045,
+      "magnitude": "large",
+      "exp1_success_rate": 0.7125,
+      "exp2_success_rate": 0.225,
+      "difference": -0.48750000000000004,
+      "ci_95_lower": -0.6224447456368718,
+      "ci_95_upper": -0.35255525436312835,
+      "interpretation": "Effect size: large (h=1.021), 48.8% degradation"
+    }
+  },
+  {
+    "comparison": "Baseline vs Safety Validation (Claude only)",
+    "exp1": 1,
+    "exp2": 4,
+    "model": "claude-opus-4-5-20251101",
+    "mcnemar": {
+      "test": "mcnemar",
+      "statistic": 0.0,
+      "p_value": 1.0,
+      "significant": "False",
+      "n_cases": 80,
+      "contingency_table": {
+        "both_correct": 45,
+        "exp1_only_correct": 8,
+        "exp2_only_correct": 9,
+        "both_wrong": 18
+      },
+      "interpretation": "Not significant difference (p=1.0000)"
+    },
+    "chi_square": {
+      "test": "chi_square",
+      "statistic": 0.0,
+      "p_value": 1.0,
+      "dof": 1,
+      "significant": "False",
+      "contingency_table": [
+        [
+          53,
+          27
+        ],
+        [
+          54,
+          26
+        ]
+      ],
+      "interpretation": "Not significant association (p=1.0000)"
+    },
+    "effect_size": {
+      "cohens_h": -0.026559375556216125,
+      "magnitude": "negligible",
+      "exp1_success_rate": 0.6625,
+      "exp2_success_rate": 0.675,
+      "difference": 0.012500000000000067,
+      "ci_95_lower": -0.13334704102243547,
+      "ci_95_upper": 0.1583470410224356,
+      "interpretation": "Effect size: negligible (h=-0.027), 1.3% improvement"
+    }
+  },
+  {
+    "comparison": "Compliance-Aware vs Safety Validation (Claude only)",
+    "exp1": 2,
+    "exp2": 4,
+    "model": "claude-opus-4-5-20251101",
+    "mcnemar": {
+      "test": "mcnemar",
+      "statistic": 2.1176470588235294,
+      "p_value": 0.14561009539686287,
+      "significant": "False",
+      "n_cases": 80,
+      "contingency_table": {
+        "both_correct": 49,
+        "exp1_only_correct": 12,
+        "exp2_only_correct": 5,
+        "both_wrong": 14
+      },
+      "interpretation": "Not significant difference (p=0.1456)"
+    },
+    "chi_square": {
+      "test": "chi_square",
+      "statistic": 1.1130434782608696,
+      "p_value": 0.29142131954205663,
+      "dof": 1,
+      "significant": "False",
+      "contingency_table": [
+        [
+          61,
+          19
+        ],
+        [
+          54,
+          26
+        ]
+      ],
+      "interpretation": "Not significant association (p=0.2914)"
+    },
+    "effect_size": {
+      "cohens_h": 0.19514400945127264,
+      "magnitude": "negligible",
+      "exp1_success_rate": 0.7625,
+      "exp2_success_rate": 0.675,
+      "difference": -0.08749999999999991,
+      "ci_95_lower": -0.22617411212984193,
+      "ci_95_upper": 0.0511741121298421,
+      "interpretation": "Effect size: negligible (h=0.195), 8.7% degradation"
+    }
+  },
+  {
+    "comparison": "RAG vs Safety Validation (Claude only)",
+    "exp1": 3,
+    "exp2": 4,
+    "model": "claude-opus-4-5-20251101",
+    "mcnemar": {
+      "test": "mcnemar",
+      "statistic": 37.02564102564103,
+      "p_value": 1.165859853102802e-09,
+      "significant": "True",
+      "n_cases": 80,
+      "contingency_table": {
+        "both_correct": 15,
+        "exp1_only_correct": 0,
+        "exp2_only_correct": 39,
+        "both_wrong": 26
+      },
+      "interpretation": "Significant difference (p=0.0000)"
+    },
+    "chi_square": {
+      "test": "chi_square",
+      "statistic": 36.79566810001593,
+      "p_value": 1.311814085185248e-09,
+      "dof": 1,
+      "significant": "True",
+      "contingency_table": [
+        [
+          15,
+          65
+        ],
+        [
+          54,
+          26
+        ]
+      ],
+      "interpretation": "Significant association (p=0.0000)"
+    },
+    "effect_size": {
+      "cohens_h": -1.0327026365825422,
+      "magnitude": "large",
+      "exp1_success_rate": 0.1875,
+      "exp2_success_rate": 0.675,
+      "difference": 0.48750000000000004,
+      "ci_95_lower": 0.35389635343674186,
+      "ci_95_upper": 0.6211036465632582,
+      "interpretation": "Effect size: large (h=-1.033), 48.8% improvement"
+    }
+  }
+]

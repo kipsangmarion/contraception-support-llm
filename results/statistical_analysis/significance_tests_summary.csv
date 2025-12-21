@@ -1,0 +1,13 @@
+Comparison,Model,p-value,Significant,Cohen's h,Effect Size,Success Rate Change,n
+Baseline vs Compliance-Aware,grok-4-1-fast-reasoning,0.1530,No,0.208,small,-10.0%,80
+Baseline vs Compliance-Aware,claude-opus-4-5-20251101,0.1356,No,-0.222,small,+10.0%,80
+Baseline vs Compliance-Aware,o3-2025-04-16,0.8312,No,-0.055,negligible,+2.5%,80
+Baseline vs RAG,grok-4-1-fast-reasoning,0.0000,Yes,1.638,large,-66.2%,80
+Baseline vs RAG,claude-opus-4-5-20251101,0.0000,Yes,1.006,large,-47.5%,80
+Baseline vs RAG,o3-2025-04-16,0.0000,Yes,0.967,large,-46.2%,80
+Compliance-Aware vs RAG,grok-4-1-fast-reasoning,0.0000,Yes,1.429,large,-56.2%,80
+Compliance-Aware vs RAG,claude-opus-4-5-20251101,0.0000,Yes,1.228,large,-57.5%,80
+Compliance-Aware vs RAG,o3-2025-04-16,0.0000,Yes,1.021,large,-48.8%,80
+Baseline vs Safety Validation (Claude only),claude-opus-4-5-20251101,1.0000,No,-0.027,negligible,+1.3%,80
+Compliance-Aware vs Safety Validation (Claude only),claude-opus-4-5-20251101,0.1456,No,0.195,negligible,-8.7%,80
+RAG vs Safety Validation (Claude only),claude-opus-4-5-20251101,0.0000,Yes,-1.033,large,+48.8%,80

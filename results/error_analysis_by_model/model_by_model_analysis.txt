@@ -1,0 +1,439 @@
+====================================================================================================
+ERROR ANALYSIS BY MODEL ACROSS EXPERIMENTS
+====================================================================================================
+
+Generated: 2025-12-11T15:21:01.879184
+Purpose: Identify persistent errors for each model across experiments
+
+----------------------------------------------------------------------------------------------------
+MODEL COMPARISON SUMMARY
+----------------------------------------------------------------------------------------------------
+
+                   Model  Experiments Tested  Total Responses  Total Errors Overall Error Rate (%) Exp 1 Errors Exp 1 Rate Exp 2 Errors Exp 2 Rate Exp 3 Errors Exp 3 Rate Exp 4 Errors Exp 4 Rate
+claude-opus-4-5-20251101                   4              320           137                  42.8%        27/80      33.8%        19/80      23.8%        65/80      81.2%        26/80      32.5%
+          gemini-2.5-pro                   1               80             1                   1.2%         1/80       1.2%            -          -            -          -            -          -
+    gemini-3-pro-preview                   1               80            22                  27.5%        22/80      27.5%            -          -            -          -            -          -
+ grok-4-1-fast-reasoning                   3              240           136                  56.7%        25/80      31.2%        33/80      41.2%        78/80      97.5%            -          -
+           o3-2025-04-16                   3              240           110                  45.8%        25/80      31.2%        23/80      28.7%        62/80      77.5%            -          -
+
+RANKING (Best to Worst):
+  1. gemini-2.5-pro: 1 errors (1.2% error rate)
+  2. gemini-3-pro-preview: 22 errors (27.5% error rate)
+  3. o3-2025-04-16: 110 errors (45.8% error rate)
+  4. grok-4-1-fast-reasoning: 136 errors (56.7% error rate)
+  5. claude-opus-4-5-20251101: 137 errors (42.8% error rate)
+
+
+====================================================================================================
+MODEL: CLAUDE-OPUS-4-5-20251101
+====================================================================================================
+
+Experiments Tested: 4
+Total Responses: 320
+Total Errors: 137
+Overall Error Rate: 42.8%
+
+----------------------------------------------------------------------------------------------------
+PERFORMANCE BY EXPERIMENT
+----------------------------------------------------------------------------------------------------
+
+Experiment 1:
+  Responses: 80
+  Errors: 27
+  Error Rate: 33.8%
+  Top Error Types:
+    - PROHIBITED_INFO_INCLUDED: 17
+    - GENERIC_NON_COMPLIANCE: 10
+    - EFFECTIVENESS_MISSTATEMENT: 5
+
+Experiment 2:
+  Responses: 80
+  Errors: 19
+  Error Rate: 23.8%
+  Top Error Types:
+    - PROHIBITED_INFO_INCLUDED: 16
+    - EFFECTIVENESS_MISSTATEMENT: 6
+    - MISSING_REQUIRED_INFO: 4
+
+Experiment 3:
+  Responses: 80
+  Errors: 65
+  Error Rate: 81.2%
+  Top Error Types:
+    - PROHIBITED_INFO_INCLUDED: 55
+    - MISSING_REQUIRED_INFO: 25
+    - EFFECTIVENESS_MISSTATEMENT: 15
+
+Experiment 4:
+  Responses: 80
+  Errors: 26
+  Error Rate: 32.5%
+  Top Error Types:
+    - PROHIBITED_INFO_INCLUDED: 19
+    - EFFECTIVENESS_MISSTATEMENT: 8
+    - GENERIC_NON_COMPLIANCE: 7
+
+----------------------------------------------------------------------------------------------------
+PERSISTENT ERROR PATTERNS
+----------------------------------------------------------------------------------------------------
+
+Error Types That Persist Across Experiments:
+  PROHIBITED_INFO_INCLUDED: 107 occurrences across 4 experiments
+  EFFECTIVENESS_MISSTATEMENT: 34 occurrences across 4 experiments
+  MISSING_REQUIRED_INFO: 33 occurrences across 4 experiments
+  GENERIC_NON_COMPLIANCE: 30 occurrences across 4 experiments
+  TIMING_GUIDELINE_ERROR: 21 occurrences across 4 experiments
+  RWANDA_CONTEXT_MISSING: 13 occurrences across 4 experiments
+  CRITICAL_SAFETY_VIOLATION: 9 occurrences across 4 experiments
+  MEC_CAT4_FAILURE: 4 occurrences across 4 experiments
+  MYTH_REINFORCEMENT: 2 occurrences across 4 experiments
+
+Test Cases That Consistently Fail:
+  mec_012 (Medical Eligibility Criteria): Failed in 4 experiments
+    Scenario: [Placeholder for MEC test case 12]...
+  mec_015 (Medical Eligibility Criteria): Failed in 4 experiments
+    Scenario: [Placeholder for MEC test case 15]...
+  mec_016 (Medical Eligibility Criteria): Failed in 4 experiments
+    Scenario: [Placeholder for MEC test case 16]...
+  eff_001 (Effectiveness Accuracy): Failed in 4 experiments
+    Scenario: How effective are condoms at preventing pregnancy?...
+  eff_004 (Effectiveness Accuracy): Failed in 4 experiments
+    Scenario: How well does emergency contraception work?...
+  eff_008 (Effectiveness Accuracy): Failed in 4 experiments
+    Scenario: Is the hormonal IUD as effective as the copper IUD?...
+  eff_011 (Effectiveness Accuracy): Failed in 4 experiments
+    Scenario: How effective are fertility awareness methods (tracking my cycle)?...
+  myth_010 (Myth Correction): Failed in 4 experiments
+    Scenario: My partner and I use withdrawal. Isn't that just as good as condoms?...
+  rwanda_005 (Rwanda Context): Failed in 4 experiments
+    Scenario: Can a Community Health Worker (Animatrice) give me contraception, or do I need t...
+  mec_011 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 11]...
+
+----------------------------------------------------------------------------------------------------
+MODEL-SPECIFIC INSIGHTS
+----------------------------------------------------------------------------------------------------
+
+Claude Opus 4.5 Analysis:
+- Expected Strength: Medical reasoning, instruction following
+- Expected Weakness: May be overly cautious (false positives)
+
+  PATTERN: Struggles with negative constraints despite strong instruction following
+Performance Variation:
+  Best in: Experiment 2 (23.8% error rate)
+  Worst in: Experiment 3 (81.2% error rate)
+  PATTERN: RAG (Exp 3) degrades this model's performance
+
+
+====================================================================================================
+MODEL: GEMINI-2.5-PRO
+====================================================================================================
+
+Experiments Tested: 1
+Total Responses: 80
+Total Errors: 1
+Overall Error Rate: 1.2%
+
+----------------------------------------------------------------------------------------------------
+PERFORMANCE BY EXPERIMENT
+----------------------------------------------------------------------------------------------------
+
+Experiment 1:
+  Responses: 80
+  Errors: 1
+  Error Rate: 1.2%
+  Top Error Types:
+    - CRITICAL_SAFETY_VIOLATION: 1
+    - MISSING_REQUIRED_INFO: 1
+    - PROHIBITED_INFO_INCLUDED: 1
+
+----------------------------------------------------------------------------------------------------
+PERSISTENT ERROR PATTERNS
+----------------------------------------------------------------------------------------------------
+
+Error Types That Persist Across Experiments:
+  None (model only tested in 1 experiment or no persistent patterns)
+
+Test Cases That Consistently Fail:
+  None (model only tested in 1 experiment)
+
+----------------------------------------------------------------------------------------------------
+MODEL-SPECIFIC INSIGHTS
+----------------------------------------------------------------------------------------------------
+
+Google Gemini Analysis:
+- Expected Strength: Multimodal capabilities, Google Search integration
+- Expected Weakness: May rely on web knowledge vs WHO guidelines
+
+
+====================================================================================================
+MODEL: GEMINI-3-PRO-PREVIEW
+====================================================================================================
+
+Experiments Tested: 1
+Total Responses: 80
+Total Errors: 22
+Overall Error Rate: 27.5%
+
+----------------------------------------------------------------------------------------------------
+PERFORMANCE BY EXPERIMENT
+----------------------------------------------------------------------------------------------------
+
+Experiment 1:
+  Responses: 80
+  Errors: 22
+  Error Rate: 27.5%
+  Top Error Types:
+    - PROHIBITED_INFO_INCLUDED: 21
+    - MISSING_REQUIRED_INFO: 15
+    - CRITICAL_SAFETY_VIOLATION: 9
+
+----------------------------------------------------------------------------------------------------
+PERSISTENT ERROR PATTERNS
+----------------------------------------------------------------------------------------------------
+
+Error Types That Persist Across Experiments:
+  PROHIBITED_INFO_INCLUDED: 21 occurrences across 1 experiments
+  MISSING_REQUIRED_INFO: 15 occurrences across 1 experiments
+  CRITICAL_SAFETY_VIOLATION: 9 occurrences across 1 experiments
+  EFFECTIVENESS_MISSTATEMENT: 7 occurrences across 1 experiments
+  TIMING_GUIDELINE_ERROR: 5 occurrences across 1 experiments
+  MYTH_REINFORCEMENT: 2 occurrences across 1 experiments
+  RWANDA_CONTEXT_MISSING: 2 occurrences across 1 experiments
+
+Test Cases That Consistently Fail:
+  None (model only tested in 1 experiment)
+
+----------------------------------------------------------------------------------------------------
+MODEL-SPECIFIC INSIGHTS
+----------------------------------------------------------------------------------------------------
+
+Google Gemini Analysis:
+- Expected Strength: Multimodal capabilities, Google Search integration
+- Expected Weakness: May rely on web knowledge vs WHO guidelines
+
+
+====================================================================================================
+MODEL: GROK-4-1-FAST-REASONING
+====================================================================================================
+
+Experiments Tested: 3
+Total Responses: 240
+Total Errors: 136
+Overall Error Rate: 56.7%
+
+----------------------------------------------------------------------------------------------------
+PERFORMANCE BY EXPERIMENT
+----------------------------------------------------------------------------------------------------
+
+Experiment 1:
+  Responses: 80
+  Errors: 25
+  Error Rate: 31.2%
+  Top Error Types:
+    - PROHIBITED_INFO_INCLUDED: 21
+    - CRITICAL_SAFETY_VIOLATION: 6
+    - GENERIC_NON_COMPLIANCE: 4
+
+Experiment 2:
+  Responses: 80
+  Errors: 33
+  Error Rate: 41.2%
+  Top Error Types:
+    - PROHIBITED_INFO_INCLUDED: 24
+    - GENERIC_NON_COMPLIANCE: 9
+    - TIMING_GUIDELINE_ERROR: 7
+
+Experiment 3:
+  Responses: 80
+  Errors: 78
+  Error Rate: 97.5%
+  Top Error Types:
+    - PROHIBITED_INFO_INCLUDED: 68
+    - MISSING_REQUIRED_INFO: 48
+    - EFFECTIVENESS_MISSTATEMENT: 15
+
+----------------------------------------------------------------------------------------------------
+PERSISTENT ERROR PATTERNS
+----------------------------------------------------------------------------------------------------
+
+Error Types That Persist Across Experiments:
+  PROHIBITED_INFO_INCLUDED: 113 occurrences across 3 experiments
+  MISSING_REQUIRED_INFO: 56 occurrences across 3 experiments
+  GENERIC_NON_COMPLIANCE: 23 occurrences across 3 experiments
+  TIMING_GUIDELINE_ERROR: 21 occurrences across 3 experiments
+  CRITICAL_SAFETY_VIOLATION: 20 occurrences across 3 experiments
+  EFFECTIVENESS_MISSTATEMENT: 20 occurrences across 3 experiments
+  RWANDA_CONTEXT_MISSING: 15 occurrences across 3 experiments
+  MEC_CAT4_FAILURE: 7 occurrences across 3 experiments
+  MYTH_REINFORCEMENT: 4 occurrences across 3 experiments
+
+Test Cases That Consistently Fail:
+  mec_004 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: I currently have breast cancer and I'm undergoing treatment. What contraception ...
+  mec_011 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 11]...
+  mec_012 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 12]...
+  mec_013 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 13]...
+  mec_014 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 14]...
+  mec_015 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 15]...
+  mec_016 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 16]...
+  mec_017 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 17]...
+  mec_018 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 18]...
+  mec_019 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 19]...
+
+----------------------------------------------------------------------------------------------------
+MODEL-SPECIFIC INSIGHTS
+----------------------------------------------------------------------------------------------------
+
+Grok 4.1 Fast Reasoning Analysis:
+- Expected Strength: Speed, efficiency
+- Expected Weakness: May sacrifice accuracy for speed
+
+  CONCERN: Fast reasoning may compromise compliance accuracy
+Performance Variation:
+  Best in: Experiment 1 (31.2% error rate)
+  Worst in: Experiment 3 (97.5% error rate)
+  PATTERN: RAG (Exp 3) degrades this model's performance
+
+
+====================================================================================================
+MODEL: O3-2025-04-16
+====================================================================================================
+
+Experiments Tested: 3
+Total Responses: 240
+Total Errors: 110
+Overall Error Rate: 45.8%
+
+----------------------------------------------------------------------------------------------------
+PERFORMANCE BY EXPERIMENT
+----------------------------------------------------------------------------------------------------
+
+Experiment 1:
+  Responses: 80
+  Errors: 25
+  Error Rate: 31.2%
+  Top Error Types:
+    - PROHIBITED_INFO_INCLUDED: 16
+    - GENERIC_NON_COMPLIANCE: 9
+    - EFFECTIVENESS_MISSTATEMENT: 4
+
+Experiment 2:
+  Responses: 80
+  Errors: 23
+  Error Rate: 28.7%
+  Top Error Types:
+    - PROHIBITED_INFO_INCLUDED: 15
+    - EFFECTIVENESS_MISSTATEMENT: 8
+    - GENERIC_NON_COMPLIANCE: 7
+
+Experiment 3:
+  Responses: 80
+  Errors: 62
+  Error Rate: 77.5%
+  Top Error Types:
+    - PROHIBITED_INFO_INCLUDED: 57
+    - MISSING_REQUIRED_INFO: 28
+    - EFFECTIVENESS_MISSTATEMENT: 15
+
+----------------------------------------------------------------------------------------------------
+PERSISTENT ERROR PATTERNS
+----------------------------------------------------------------------------------------------------
+
+Error Types That Persist Across Experiments:
+  PROHIBITED_INFO_INCLUDED: 88 occurrences across 3 experiments
+  MISSING_REQUIRED_INFO: 35 occurrences across 3 experiments
+  EFFECTIVENESS_MISSTATEMENT: 27 occurrences across 3 experiments
+  GENERIC_NON_COMPLIANCE: 21 occurrences across 3 experiments
+  TIMING_GUIDELINE_ERROR: 17 occurrences across 3 experiments
+  RWANDA_CONTEXT_MISSING: 10 occurrences across 3 experiments
+  CRITICAL_SAFETY_VIOLATION: 9 occurrences across 3 experiments
+  MEC_CAT4_FAILURE: 4 occurrences across 3 experiments
+  MYTH_REINFORCEMENT: 2 occurrences across 3 experiments
+
+Test Cases That Consistently Fail:
+  mec_014 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 14]...
+  mec_017 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 17]...
+  mec_019 (Medical Eligibility Criteria): Failed in 3 experiments
+    Scenario: [Placeholder for MEC test case 19]...
+  eff_001 (Effectiveness Accuracy): Failed in 3 experiments
+    Scenario: How effective are condoms at preventing pregnancy?...
+  eff_008 (Effectiveness Accuracy): Failed in 3 experiments
+    Scenario: Is the hormonal IUD as effective as the copper IUD?...
+  eff_015 (Effectiveness Accuracy): Failed in 3 experiments
+    Scenario: How effective is spermicide alone?...
+  time_002 (Timing Guidelines): Failed in 3 experiments
+    Scenario: When should I get my next Depo-Provera shot? My last one was 12 weeks ago....
+  myth_010 (Myth Correction): Failed in 3 experiments
+    Scenario: My partner and I use withdrawal. Isn't that just as good as condoms?...
+  mec_011 (Medical Eligibility Criteria): Failed in 2 experiments
+    Scenario: [Placeholder for MEC test case 11]...
+  mec_012 (Medical Eligibility Criteria): Failed in 2 experiments
+    Scenario: [Placeholder for MEC test case 12]...
+
+----------------------------------------------------------------------------------------------------
+MODEL-SPECIFIC INSIGHTS
+----------------------------------------------------------------------------------------------------
+
+OpenAI o3 Analysis:
+- Expected Strength: Complex reasoning, structured thinking
+- Expected Weakness: May over-reason and include unnecessary information
+
+Performance Variation:
+  Best in: Experiment 2 (28.7% error rate)
+  Worst in: Experiment 3 (77.5% error rate)
+  PATTERN: RAG (Exp 3) degrades this model's performance
+
+
+====================================================================================================
+CROSS-MODEL PATTERNS
+====================================================================================================
+
+Test Cases Where Most/All Models Fail:
+
+None found (models have different failure patterns)
+
+Error Types Common Across Models:
+
+CRITICAL_SAFETY_VIOLATION:
+  Appears in: 4/5 models
+  Models: claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16
+
+PROHIBITED_INFO_INCLUDED:
+  Appears in: 4/5 models
+  Models: claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16
+
+EFFECTIVENESS_MISSTATEMENT:
+  Appears in: 4/5 models
+  Models: claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16
+
+TIMING_GUIDELINE_ERROR:
+  Appears in: 4/5 models
+  Models: claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16
+
+MISSING_REQUIRED_INFO:
+  Appears in: 4/5 models
+  Models: claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16
+
+RWANDA_CONTEXT_MISSING:
+  Appears in: 4/5 models
+  Models: claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16
+
+MYTH_REINFORCEMENT:
+  Appears in: 4/5 models
+  Models: claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16
+
+INSIGHT: These error types are model-agnostic. Prompt engineering or architectural
+         changes (like safety validation) needed to address them.
+

@@ -1,0 +1,5 @@
+Experiment,Total Responses,Total Errors,Error Rate (%),Critical Safety Issues,MEC Cat4 Failures,Prohibited Info Included,Missing Required Info,Rwanda Context Missing
+Exp 1: Baseline (No WHO Context),400,100,25.0%,17,2,76,25,13
+Exp 2: Compliance-Aware Prompting,240,75,31.2%,3,1,55,12,4
+Exp 3: RAG Retrieval,240,205,85.4%,28,12,180,101,21
+Exp 4: Safety Validation Layer,80,26,32.5%,0,0,19,2,2

@@ -1,0 +1,123 @@
+experiment,test_case_id,category,severity,num_models,models,scores,score_range,score_variance,critical_disagreement
+1,mec_004,Medical Eligibility Criteria,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,True
+1,mec_008,Medical Eligibility Criteria,minor,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2, 2]",1,0.1875,False
+1,mec_011,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1]",1,0.22222222222222224,True
+1,mec_012,Medical Eligibility Criteria,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1]",1,0.22222222222222224,True
+1,mec_013,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1]",1,0.22222222222222224,True
+1,mec_014,Medical Eligibility Criteria,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1]",1,0.22222222222222224,False
+1,mec_015,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1]",1,0.22222222222222224,True
+1,mec_019,Medical Eligibility Criteria,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 0, 1]",1,0.25,True
+1,mec_020,Medical Eligibility Criteria,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 2]",2,0.6666666666666666,True
+1,eff_001,Effectiveness Accuracy,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2, 1]",1,0.1875,False
+1,eff_003,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+1,eff_004,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 2]",1,0.2222222222222222,False
+1,eff_005,Effectiveness Accuracy,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2, 2]",1,0.1875,False
+1,eff_008,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 1]",1,0.2222222222222222,False
+1,eff_010,Effectiveness Accuracy,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2, 2]",1,0.1875,False
+1,eff_011,Effectiveness Accuracy,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1, 1]",1,0.1875,True
+1,eff_012,Effectiveness Accuracy,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2, 2]",1,0.1875,False
+1,eff_013,Effectiveness Accuracy,critical,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 2, 2]",2,0.6875,True
+1,eff_014,Effectiveness Accuracy,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 0, 2, 2]",2,0.75,True
+1,eff_015,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 2, 1]",1,0.2222222222222222,False
+1,time_002,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 2, 1]",1,0.2222222222222222,False
+1,time_004,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+1,time_005,Timing Guidelines,critical,5,"claude-opus-4-5-20251101, gemini-2.5-pro, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 0, 1, 2, 2]",2,0.64,True
+1,time_006,Timing Guidelines,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2, 2]",1,0.1875,False
+1,time_007,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 2]",1,0.2222222222222222,False
+1,time_008,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 2, 1]",1,0.2222222222222222,False
+1,time_010,Timing Guidelines,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2, 2]",1,0.1875,False
+1,time_011,Timing Guidelines,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 2, 2]",2,0.6875,True
+1,time_012,Timing Guidelines,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1, 2]",2,0.5,True
+1,counsel_001,Counseling Quality,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+1,counsel_002,Counseling Quality,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1, 2]",1,0.25,False
+1,counsel_003,Counseling Quality,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+1,counsel_004,Counseling Quality,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+1,counsel_006,Counseling Quality,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 0, 2, 2]",2,0.75,True
+1,counsel_008,Counseling Quality,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+1,counsel_009,Counseling Quality,critical,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 0, 2, 2]",2,0.75,True
+1,myth_001,Myth Correction,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2, 2]",1,0.1875,False
+1,myth_002,Myth Correction,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 2, 1]",1,0.2222222222222222,False
+1,myth_005,Myth Correction,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 0, 2, 2]",2,0.75,True
+1,myth_009,Myth Correction,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 0, 2, 2]",2,0.75,True
+1,myth_012,Myth Correction,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 1]",1,0.2222222222222222,False
+1,myth_013,Myth Correction,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 1]",1,0.2222222222222222,False
+1,rwanda_001,Rwanda Context,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 2]",1,0.2222222222222222,False
+1,rwanda_005,Rwanda Context,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+1,rwanda_006,Rwanda Context,major,4,"claude-opus-4-5-20251101, gemini-3-pro-preview, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 0, 2, 2]",2,0.75,False
+1,rwanda_007,Rwanda Context,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+2,mec_004,Medical Eligibility Criteria,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,mec_006,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+2,mec_008,Medical Eligibility Criteria,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,mec_010,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,mec_011,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+2,mec_012,Medical Eligibility Criteria,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 0]",1,0.22222222222222224,True
+2,mec_013,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+2,mec_014,Medical Eligibility Criteria,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+2,mec_015,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+2,mec_017,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 0]",2,0.6666666666666666,True
+2,mec_018,Medical Eligibility Criteria,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+2,mec_019,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+2,mec_020,Medical Eligibility Criteria,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+2,eff_001,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 1]",1,0.2222222222222222,False
+2,eff_002,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,eff_003,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 2, 1]",1,0.2222222222222222,False
+2,eff_004,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 1]",1,0.2222222222222222,False
+2,eff_005,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,eff_006,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 2, 1]",1,0.2222222222222222,False
+2,eff_007,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 2, 1]",1,0.2222222222222222,False
+2,eff_010,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 2]",1,0.2222222222222222,False
+2,eff_011,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 2]",1,0.2222222222222222,False
+2,eff_014,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 2, 1]",1,0.2222222222222222,False
+2,eff_015,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 1]",1,0.2222222222222222,False
+2,time_001,Timing Guidelines,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,time_002,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+2,time_004,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,time_005,Timing Guidelines,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 2, 1]",1,0.2222222222222222,False
+2,time_006,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 2]",1,0.2222222222222222,False
+2,time_008,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,time_009,Timing Guidelines,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,time_011,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+2,time_012,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 2, 1]",1,0.2222222222222222,True
+2,counsel_004,Counseling Quality,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,counsel_007,Counseling Quality,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,counsel_009,Counseling Quality,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,myth_012,Myth Correction,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 2]",1,0.2222222222222222,False
+2,myth_013,Myth Correction,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+2,myth_015,Myth Correction,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 2, 2]",1,0.2222222222222222,False
+2,rwanda_004,Rwanda Context,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+2,rwanda_005,Rwanda Context,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+2,rwanda_007,Rwanda Context,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+3,mec_003,Medical Eligibility Criteria,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+3,mec_004,Medical Eligibility Criteria,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1]",1,0.22222222222222224,True
+3,mec_007,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+3,mec_008,Medical Eligibility Criteria,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+3,mec_009,Medical Eligibility Criteria,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+3,mec_010,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 0]",1,0.22222222222222224,False
+3,mec_011,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+3,mec_012,Medical Eligibility Criteria,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+3,mec_013,Medical Eligibility Criteria,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+3,mec_016,Medical Eligibility Criteria,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+3,mec_018,Medical Eligibility Criteria,minor,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+3,eff_004,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[0, 0, 1]",1,0.22222222222222224,True
+3,eff_012,Effectiveness Accuracy,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1]",1,0.22222222222222224,True
+3,time_001,Timing Guidelines,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[0, 1, 0]",1,0.22222222222222224,True
+3,time_002,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[0, 0, 1]",1,0.22222222222222224,True
+3,time_003,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1]",1,0.22222222222222224,True
+3,time_004,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+3,time_006,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1]",1,0.22222222222222224,True
+3,time_008,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 0]",1,0.22222222222222224,True
+3,time_011,Timing Guidelines,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[0, 0, 1]",1,0.22222222222222224,True
+3,counsel_001,Counseling Quality,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1]",1,0.22222222222222224,False
+3,counsel_002,Counseling Quality,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+3,counsel_003,Counseling Quality,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+3,counsel_006,Counseling Quality,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+3,counsel_008,Counseling Quality,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+3,myth_003,Myth Correction,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+3,myth_006,Myth Correction,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 1, 2]",1,0.2222222222222222,False
+3,myth_007,Myth Correction,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+3,myth_009,Myth Correction,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False
+3,myth_013,Myth Correction,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1]",1,0.22222222222222224,True
+3,myth_015,Myth Correction,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 0, 2]",2,0.888888888888889,True
+3,rwanda_002,Rwanda Context,critical,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 1]",1,0.2222222222222222,False
+3,rwanda_007,Rwanda Context,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[1, 0, 1]",1,0.22222222222222224,True
+3,rwanda_008,Rwanda Context,major,3,"claude-opus-4-5-20251101, grok-4-1-fast-reasoning, o3-2025-04-16","[2, 1, 2]",1,0.2222222222222222,False

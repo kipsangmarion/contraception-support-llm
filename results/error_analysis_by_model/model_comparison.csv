@@ -1,0 +1,6 @@
+Model,Experiments Tested,Total Responses,Total Errors,Overall Error Rate (%),Exp 1 Errors,Exp 1 Rate,Exp 2 Errors,Exp 2 Rate,Exp 3 Errors,Exp 3 Rate,Exp 4 Errors,Exp 4 Rate
+claude-opus-4-5-20251101,4,320,137,42.8%,27/80,33.8%,19/80,23.8%,65/80,81.2%,26/80,32.5%
+gemini-2.5-pro,1,80,1,1.2%,1/80,1.2%,-,-,-,-,-,-
+gemini-3-pro-preview,1,80,22,27.5%,22/80,27.5%,-,-,-,-,-,-
+grok-4-1-fast-reasoning,3,240,136,56.7%,25/80,31.2%,33/80,41.2%,78/80,97.5%,-,-
+o3-2025-04-16,3,240,110,45.8%,25/80,31.2%,23/80,28.7%,62/80,77.5%,-,-

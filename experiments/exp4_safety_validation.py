@@ -305,17 +305,16 @@ def main():
             'provider': 'anthropic',
             'description': 'Claude Opus 4.5 (Exp2 winner: 76.25% compliant)'
         },
-        # Uncomment to test other models:
-        # {
-        #     'name': 'o3-2025-04-16',
-        #     'provider': 'openai',
-        #     'description': 'OpenAI o3 (Exp2: 85% compliant)'
-        # },
-        # {
-        #     'name': 'grok-4-1-fast-reasoning',
-        #     'provider': 'xai',
-        #     'description': 'Grok 4.1 Fast Reasoning (Exp2: 73.75% compliant)'
-        # }
+        {
+            'name': 'o3-2025-04-16',
+            'provider': 'openai',
+            'description': 'OpenAI o3 (Exp2: 85% compliant)'
+        },
+        {
+            'name': 'grok-4-1-fast-reasoning',
+            'provider': 'xai',
+            'description': 'Grok 4.1 Fast Reasoning (Exp2: 73.75% compliant)'
+        }
     ]
 
     output_dir = Path("results/compliance_experiments")
