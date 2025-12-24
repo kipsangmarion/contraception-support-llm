@@ -70,28 +70,23 @@ uvicorn src.api.main:app --reload --host 0.0.0.0 --port 8000
 
 ## Experiments
 
-The system includes 6 comprehensive experiments for evaluation:
+The system has completed 4 core experiments using the unified pipeline:
 
 ```bash
-# Validate environment
-python run_experiments.py --validate
+# Test the unified pipeline (without running full dataset)
+python tests/test_unified_pipeline.py
 
-# List all experiments
-python run_experiments.py --list
-
-# Run all experiments (2-3 hours)
-python run_experiments.py --all
-
-# Run specific experiments
-python run_experiments.py --exp 1 2 3
+# Run compliance experiments
+python scripts/run_compliance_experiments.py
 ```
 
-**Experiments**:
-1. **Baseline Knowledge** (10-15 min) - LLM knowledge without compliance prompts
-2. **Anchored Prompts** (10-15 min) - Compliance-aware prompting (CURRENT APPROACH - 76.25% compliant)
-3. **RAG Comparison** (15-20 min) - RAG vs compliance-aware performance (RAG showed 35% degradation)
-4. **Memory Testing** (planned) - Memory persistence with compliance-aware approach
-5. **Model Comparison** (planned) - Claude Opus vs o3 for memory tasks
+**Completed Experiments**:
+1. **Baseline Knowledge** - LLM knowledge without compliance prompts or RAG
+2. **Compliance-Aware Prompting** - System prompts with WHO guidelines (76.25% compliant, 0 critical issues)
+3. **RAG Enhancement** - RAG retrieval with compliance prompts (showed 35% degradation vs. prompting alone)
+4. **Safety Validation** - Real-time safety checks on LLM outputs
+
+**Results**: Compliance-aware prompting (Exp 2) outperformed RAG (Exp 3) by 41% in compliance metrics.
 
 ---
 
@@ -121,7 +116,10 @@ contraception-support-llm/
 │       ├── data_collection.py         # Privacy-preserving collection
 │       └── logger.py                  # Logging setup
 ├── experiments/                       # Experiment scripts
-├── scripts/                           # Helper scripts
+├── scripts/                           # Analysis & utility scripts
+├── tests/                             # Test suites
+│   ├── test_unified_pipeline.py       # Pipeline tests (4 experiments)
+│   └── test_unified_analysis.py       # Analysis tests
 ├── static/                            # Web UI (HTML/CSS/JS)
 ├── results/                           # Experiment outputs
 ├── setup_env.py                       # Environment setup script
@@ -167,7 +165,7 @@ contraception-support-llm/
 └──────────────┘  └──────────┘
 ```
 
-See [SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md) for comprehensive architecture documentation.
+See [docs/GUIDELINE_SCOPE_AND_COMPLIANCE.md](docs/GUIDELINE_SCOPE_AND_COMPLIANCE.md) for comprehensive guideline documentation.
 
 ---
 
@@ -271,7 +269,7 @@ GET /stats
 GET /docs
 ```
 
-See [SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md) for complete API documentation.
+See API documentation at `http://localhost:8000/docs` when the server is running.
 
 ---
 
@@ -294,9 +292,16 @@ See [SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md) for complete API documentat
 - Multi-session profile consistency
 - Adherence optimization (LinUCB)
 
-Run experiments to generate metrics:
+Run experiments and analysis:
 ```bash
-python run_experiments.py --all
+# Test pipeline without full dataset
+python tests/test_unified_pipeline.py
+
+# Analyze experiment results
+python scripts/analyze_results.py --mode comprehensive
+
+# Compare experiments
+python scripts/compare_results.py --mode comprehensive
 ```
 
 ---
@@ -344,12 +349,14 @@ memory:
 
 | Document | Description |
 |----------|-------------|
-| [CHATBOT_UPDATE_SUMMARY.md](CHATBOT_UPDATE_SUMMARY.md) | Compliance-aware approach migration guide |
-| [CLEANUP_PLAN.md](CLEANUP_PLAN.md) | Code cleanup and restructuring plan |
-| [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) | Current implementation status |
-| [QUICK_START.md](QUICK_START.md) | Quick start guide |
-| [DATA_COLLECTION_GUIDE.md](DATA_COLLECTION_GUIDE.md) | Privacy-preserving data collection |
-| [COMPLIANCE_DATASET_README.md](data/COMPLIANCE_DATASET_README.md) | Compliance test dataset documentation |
+| [UNIFIED_PIPELINE_GUIDE.md](UNIFIED_PIPELINE_GUIDE.md) | Unified pipeline architecture and usage |
+| [UNIFIED_ANALYSIS_GUIDE.md](UNIFIED_ANALYSIS_GUIDE.md) | Analysis and comparison system guide |
+| [ANNOTATION_CLEANUP_SUMMARY.md](ANNOTATION_CLEANUP_SUMMARY.md) | Annotation module documentation |
+| [docs/QUICK_START.md](docs/QUICK_START.md) | Quick start guide |
+| [docs/API_KEYS_SETUP.md](docs/API_KEYS_SETUP.md) | API keys configuration |
+| [docs/GUIDELINE_SCOPE_AND_COMPLIANCE.md](docs/GUIDELINE_SCOPE_AND_COMPLIANCE.md) | WHO/BCS+ guideline scope |
+| [docs/ANNOTATION_PROTOCOL.md](docs/ANNOTATION_PROTOCOL.md) | Compliance annotation protocol |
+| [data/COMPLIANCE_DATASET_README.md](data/COMPLIANCE_DATASET_README.md) | Compliance test dataset documentation |
 
 ---
 
@@ -374,14 +381,17 @@ docker-compose down
 ## Testing
 
 ```bash
-# Run unit tests
-pytest tests/
+# Test unified pipeline (4 experiments)
+python tests/test_unified_pipeline.py
+
+# Test unified analysis system
+python tests/test_unified_analysis.py
+
+# Run all tests
+python -m pytest tests/ -v
 
 # Run with coverage
 pytest --cov=src tests/
-
-# Run integration tests
-pytest tests/integration/
 ```
 
 ---
@@ -468,7 +478,7 @@ This is a **graduate-level capstone project** demonstrating:
 
 For questions or collaboration:
 - Create an issue in the repository
-- See [PROJECT_STATUS.md](PROJECT_STATUS.md) for project updates
+- See documentation in [docs/](docs/) for detailed guides
 
 ---
 
