@@ -1,11 +1,12 @@
 """
 FastAPI Application for Contraception Counseling System
 
-Uses Compliance-Aware Prompting (Experiment 2 approach) for optimal safety and accuracy.
+Uses Compliance-Aware Prompting with Safety Validation (Experiment 4) for optimal safety and accuracy.
 
 Based on experimental results:
-- Claude Opus 4.5 + Compliance Prompting: 76.25% compliant, 0 critical issues
-- RAG approach showed 35% degradation in compliance
+- Experiment 2: Claude Opus 4.5 + Compliance Prompting: 76.25% compliant, 0 critical issues
+- Experiment 3: RAG approach showed 35% degradation in compliance
+- Experiment 4: Adds post-generation safety validation for additional protection
 
 Provides REST API endpoints for:
 - Query processing
@@ -35,8 +36,8 @@ setup_logger()
 # Create FastAPI app
 app = FastAPI(
     title="Contraception Counseling API",
-    description="Compliance-aware contraception counseling system (Exp2 approach) with multi-language support. Uses Claude Opus 4.5 for optimal safety and accuracy.",
-    version="2.0.0",
+    description="Compliance-aware contraception counseling system with safety validation (Exp4) with multi-language support. Uses Claude Opus 4.5 for optimal safety and accuracy.",
+    version="4.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -164,13 +165,14 @@ async def startup_event():
     logger.info("Starting up Contraception Counseling API...")
 
     try:
-        # Initialize Compliance Pipeline (Experiment 2 approach)
-        # Uses Claude Opus 4.5 + compliance-aware prompting (no RAG retrieval)
+        # Initialize Compliance Pipeline (Experiment 4 approach)
+        # Uses Claude Opus 4.5 + compliance-aware prompting + safety validation
         pipeline = CompliancePipelineWithMemory(
             config_path="configs/config.yaml",
-            use_multilingual=True
+            use_multilingual=True,
+            use_safety_validation=True  # Experiment 4: Enable safety validation
         )
-        logger.info("✓ Compliance Pipeline initialized (Experiment 2 approach)")
+        logger.info("✓ Compliance Pipeline initialized (Experiment 4: Safety Validation enabled)")
 
         # Initialize data collector (disabled by default)
         data_collector = DataCollector(

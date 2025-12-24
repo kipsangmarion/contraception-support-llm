@@ -1,15 +1,11 @@
 """
-Evaluation system for RAG quality assessment and compliance annotation.
+Evaluation system for compliance annotation and inter-annotator agreement.
 """
 
-from .metrics import EvaluationMetrics
-from .evaluator import SystemEvaluator
 from .annotator import ComplianceAnnotator
 from .agreement import AgreementMetrics
 
 __all__ = [
-    'EvaluationMetrics',
-    'SystemEvaluator',
     'ComplianceAnnotator',
     'AgreementMetrics'
 ]

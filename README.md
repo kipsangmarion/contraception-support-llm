@@ -14,13 +14,14 @@ An AI-powered contraception counseling system using compliance-aware prompting g
 This project implements a comprehensive AI system for evidence-based contraception counseling with:
 
 - **Compliance-Aware Approach**: Direct LLM generation with WHO/BCS+ compliance-aware system prompts (76.25% compliant, 0 critical issues)
+- **Safety Validation**: Post-generation safety checks to catch unsafe language patterns (Experiment 4)
 - **Multi-Language Support**: English, French, and Kinyarwanda using Claude Opus 4.5
 - **Memory Management**: Session-based conversation history and cross-session user profiles
 - **Privacy-First Design**: Anonymous IDs, opt-in data collection, GDPR compliance
 - **Comprehensive Evaluation**: Compliance scoring, hallucination detection, safety assessment
 - **Production-Ready**: FastAPI, Docker, extensive testing
 
-**Note**: This system uses Experiment 2's compliance-aware prompting approach, which outperformed RAG-based retrieval by 41% in compliance metrics.
+**Note**: This system uses Experiment 4's approach: compliance-aware prompting (Exp 2: 76.25% compliant, 0 critical issues) enhanced with post-generation safety validation for additional protection.
 
 ---
 
@@ -108,9 +109,9 @@ contraception-support-llm/
 │   ├── memory/                        # Memory management
 │   │   ├── memory_manager.py          # Orchestrator
 │   │   └── conversation_memory.py     # Session tracking
-│   ├── evaluation/                    # Evaluation framework
-│   │   ├── evaluator.py               # SystemEvaluator
-│   │   └── metrics.py                 # Compliance scoring
+│   ├── evaluation/                    # Compliance evaluation
+│   │   ├── annotator.py               # LLM-as-judge annotation
+│   │   └── agreement.py               # Inter-annotator agreement
 │   └── utils/
 │       ├── multilang_llm_client.py    # Multi-language routing (Claude Opus 4.5)
 │       ├── data_collection.py         # Privacy-preserving collection
@@ -171,11 +172,12 @@ See [docs/GUIDELINE_SCOPE_AND_COMPLIANCE.md](docs/GUIDELINE_SCOPE_AND_COMPLIANCE
 
 ## Key Features
 
-### 1. Compliance-Aware Pipeline
+### 1. Compliance-Aware Pipeline with Safety Validation
 - **Direct LLM Generation**: No RAG retrieval - uses model's built-in WHO guideline knowledge
 - **Compliance-Aware Prompts**: Experiment 2 system prompts with WHO MEC categories, effectiveness rates
-- **Safety-First**: Explicit uncertainty handling, non-directive counseling language
-- **Results**: 76.25% compliant with 0 critical safety issues (Claude Opus 4.5)
+- **Post-Generation Safety Validation**: Experiment 4 adds pattern-based safety checks to catch unsafe language
+- **Safety-First**: Explicit uncertainty handling, non-directive counseling language, automatic fallbacks
+- **Results**: 76.25% compliant with 0 critical safety issues (Claude Opus 4.5, Exp 2 baseline)
 
 ### 2. Multi-Language Support
 - **All Languages**: Claude Opus 4.5 - Consistent performance across English, French, Kinyarwanda

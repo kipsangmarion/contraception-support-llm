@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 from loguru import logger
 
-from src.pipeline.generator import ComplianceGenerator, MultilingualGenerator
+from src.pipeline.generator import ComplianceGenerator, MultilingualGenerator, SafetyValidator
 from src.memory.memory_manager import MemoryManager
 
 
@@ -36,7 +36,8 @@ class CompliancePipeline:
     def __init__(
         self,
         config_path: str = "configs/config.yaml",
-        use_multilingual: bool = True
+        use_multilingual: bool = True,
+        use_safety_validation: bool = True
     ):
         """
         Initialize compliance pipeline.
@@ -44,6 +45,7 @@ class CompliancePipeline:
         Args:
             config_path: Path to configuration file
             use_multilingual: Use multilingual generator with auto-detection
+            use_safety_validation: Enable safety validator (Experiment 4)
         """
         # Load configuration
         with open(config_path, 'r') as f:
@@ -55,11 +57,16 @@ class CompliancePipeline:
             llm_config=self.config['models']['llm']
         )
 
+        # Initialize safety validator (Experiment 4)
+        self.safety_validator = SafetyValidator() if use_safety_validation else None
+        self.use_safety_validation = use_safety_validation
+
         # Conversation storage
         self.conversations = {}  # session_id -> conversation history
 
-        logger.info(f"CompliancePipeline initialized (multilingual={use_multilingual})")
-        logger.info("Using compliance-aware prompting (Experiment 2 approach)")
+        experiment = "Experiment 4 (with safety validation)" if use_safety_validation else "Experiment 2 (compliance prompting only)"
+        logger.info(f"CompliancePipeline initialized (multilingual={use_multilingual}, safety_validation={use_safety_validation})")
+        logger.info(f"Using {experiment}")
 
     def query(
         self,
@@ -107,7 +114,27 @@ class CompliancePipeline:
             # No sources since we're not using retrieval
             result['sources'] = []
 
-            # Step 3: Update conversation history
+            # Step 3: Safety validation (Experiment 4)
+            if self.use_safety_validation and self.safety_validator:
+                logger.debug("Step 3: Running safety validation")
+                validation_result = self.safety_validator.validate(
+                    response=result['response'],
+                    question=question,
+                    language=result['language']
+                )
+
+                result['metadata']['safety_validation'] = validation_result
+
+                # If high severity issues detected, use safer fallback
+                if validation_result['severity'] == 'high':
+                    logger.warning(f"High severity safety issues detected: {validation_result['issues']}")
+                    result['response'] = validation_result.get('fallback_response', result['response'])
+                    result['metadata']['safety_fallback_used'] = True
+                elif validation_result['issues']:
+                    logger.info(f"Medium severity issues logged: {validation_result['issues']}")
+                    result['metadata']['safety_fallback_used'] = False
+
+            # Step 4: Update conversation history
             if session_id:
                 self._update_conversation(
                     session_id=session_id,
@@ -119,8 +146,8 @@ class CompliancePipeline:
             # Add query to metadata
             result['metadata']['query'] = question
             result['metadata']['session_id'] = session_id
-            result['metadata']['approach'] = 'compliance_aware_prompting'
-            result['metadata']['experiment'] = 'exp2_approach'
+            result['metadata']['approach'] = 'compliance_aware_prompting_with_validation' if self.use_safety_validation else 'compliance_aware_prompting'
+            result['metadata']['experiment'] = 'exp4_safety_validation' if self.use_safety_validation else 'exp2_compliance_only'
 
             logger.info(f"Generated response ({len(result['response'])} chars)")
             return result
@@ -213,7 +240,8 @@ class CompliancePipelineWithMemory(CompliancePipeline):
         self,
         config_path: str = "configs/config.yaml",
         memory_dir: str = "data/memory",
-        use_multilingual: bool = True
+        use_multilingual: bool = True,
+        use_safety_validation: bool = True
     ):
         """
         Initialize compliance pipeline with memory.
@@ -222,8 +250,9 @@ class CompliancePipelineWithMemory(CompliancePipeline):
             config_path: Configuration file path
             memory_dir: Directory for memory storage
             use_multilingual: Use multilingual generator
+            use_safety_validation: Enable safety validator (Experiment 4)
         """
-        super().__init__(config_path, use_multilingual)
+        super().__init__(config_path, use_multilingual, use_safety_validation)
 
         # Initialize memory manager
         self.memory = MemoryManager(
